@@ -369,18 +369,22 @@ namespace WebShopCleanCode
 					}
 					break;
 				case 4:
-					Customer newCustomer = NewCustomer();
-					customers.Add(newCustomer);
-					currentCustomer = newCustomer;
-					Console.WriteLine();
-					Console.WriteLine(newCustomer.Username + " successfully added and is now logged in.");
-					Console.WriteLine();
+					AddNewCustomer();
 					SetMainMenuOptions();
 					break;
 				default:
 					WriteNotAnOption();
 					break;
 			}
+		}
+		private void AddNewCustomer()
+		{
+			Customer newCustomer = NewCustomer();
+			customers.Add(newCustomer);
+			currentCustomer = newCustomer;
+			Console.WriteLine();
+			Console.WriteLine(newCustomer.Username + " successfully added and is now logged in.");
+			Console.WriteLine();
 		}
 		private void PurchaseMenu()
 		{
