@@ -472,216 +472,20 @@ namespace WebShopCleanCode
 				}
 			}
 			// Would have liked to be able to quit at any time in here.
-			string choice = "";
-			bool next = false;
-			string firstName = null;
-			string lastName = null;
-			string email = null;
-			int age = -1;
-			string address = null;
-			string phoneNumber = null;
-
 			Console.WriteLine("Do you want a password? y/n");
 			string newPassword = SetChoiceYesOrNo();
-
-			while (true)
-			{
-				Console.WriteLine("Do you want a first name? y/n");
-				choice = Console.ReadLine();
-				if (choice.Equals("y"))
-				{
-					while (true)
-					{
-						Console.WriteLine("Please write your first name.");
-						firstName = Console.ReadLine();
-						if (firstName.Equals(""))
-						{
-							Console.WriteLine();
-							Console.WriteLine("Please actually write something.");
-							Console.WriteLine();
-							continue;
-						}
-						else
-						{
-							next = true;
-							break;
-						}
-					}
-				}
-				if (choice.Equals("n") || next)
-				{
-					next = false;
-					break;
-				}
-				Console.WriteLine();
-				Console.WriteLine("y or n, please.");
-				Console.WriteLine();
-			}
-			while (true)
-			{
-				Console.WriteLine("Do you want a last name? y/n");
-				choice = Console.ReadLine();
-				if (choice.Equals("y"))
-				{
-					while (true)
-					{
-						Console.WriteLine("Please write your last name.");
-						lastName = Console.ReadLine();
-						if (lastName.Equals(""))
-						{
-							Console.WriteLine();
-							Console.WriteLine("Please actually write something.");
-							Console.WriteLine();
-							continue;
-						}
-						else
-						{
-							next = true;
-							break;
-						}
-					}
-				}
-				if (choice.Equals("n") || next)
-				{
-					next = false;
-					break;
-				}
-				Console.WriteLine();
-				Console.WriteLine("y or n, please.");
-				Console.WriteLine();
-			}
-			while (true)
-			{
-				Console.WriteLine("Do you want an email? y/n");
-				choice = Console.ReadLine();
-				if (choice.Equals("y"))
-				{
-					while (true)
-					{
-						Console.WriteLine("Please write your email.");
-						email = Console.ReadLine();
-						if (email.Equals(""))
-						{
-							Console.WriteLine();
-							Console.WriteLine("Please actually write something.");
-							Console.WriteLine();
-							continue;
-						}
-						else
-						{
-							next = true;
-							break;
-						}
-					}
-				}
-				if (choice.Equals("n") || next)
-				{
-					next = false;
-					break;
-				}
-				Console.WriteLine();
-				Console.WriteLine("y or n, please.");
-				Console.WriteLine();
-			}
-			while (true)
-			{
-				Console.WriteLine("Do you want an age? y/n");
-				choice = Console.ReadLine();
-				if (choice.Equals("y"))
-				{
-					while (true)
-					{
-						Console.WriteLine("Please write your age.");
-						string ageString = Console.ReadLine();
-						try
-						{
-							age = int.Parse(ageString);
-						}
-						catch (FormatException e)
-						{
-							Console.WriteLine();
-							Console.WriteLine("Please write a number.");
-							Console.WriteLine();
-							continue;
-						}
-						next = true;
-						break;
-					}
-				}
-				if (choice.Equals("n") || next)
-				{
-					next = false;
-					break;
-				}
-				Console.WriteLine();
-				Console.WriteLine("y or n, please.");
-				Console.WriteLine();
-			}
-			while (true)
-			{
-				Console.WriteLine("Do you want an address? y/n");
-				choice = Console.ReadLine();
-				if (choice.Equals("y"))
-				{
-					while (true)
-					{
-						Console.WriteLine("Please write your address.");
-						address = Console.ReadLine();
-						if (address.Equals(""))
-						{
-							Console.WriteLine();
-							Console.WriteLine("Please actually write something.");
-							Console.WriteLine();
-							continue;
-						}
-						else
-						{
-							next = true;
-							break;
-						}
-					}
-				}
-				if (choice.Equals("n") || next)
-				{
-					next = false;
-					break;
-				}
-				Console.WriteLine();
-				Console.WriteLine("y or n, please.");
-				Console.WriteLine();
-			}
-			while (true)
-			{
-				Console.WriteLine("Do you want a phone number? y/n");
-				choice = Console.ReadLine();
-				if (choice.Equals("y"))
-				{
-					while (true)
-					{
-						Console.WriteLine("Please write your phone number.");
-						phoneNumber = Console.ReadLine();
-						if (phoneNumber.Equals(""))
-						{
-							Console.WriteLine();
-							Console.WriteLine("Please actually write something.");
-							Console.WriteLine();
-							continue;
-						}
-						else
-						{
-							next = true;
-							break;
-						}
-					}
-				}
-				if (choice.Equals("n") || next)
-				{
-					break;
-				}
-				Console.WriteLine();
-				Console.WriteLine("y or n, please.");
-				Console.WriteLine();
-			}
+			Console.WriteLine("Do you want a first name? y/n");
+			string firstName = SetChoiceYesOrNo();
+			Console.WriteLine("Do you want a last name? y/n");
+			string lastName = SetChoiceYesOrNo();
+			Console.WriteLine("Do you want an email? y/n");
+			string email = SetChoiceYesOrNo();
+			Console.WriteLine("Do you want an age? y/n");
+			int age = Convert.ToInt32(SetChoiceYesOrNo());
+			Console.WriteLine("Do you want an address? y/n");
+			string address = SetChoiceYesOrNo();
+			Console.WriteLine("Do you want a phone number? y/n");
+			string phoneNumber = SetChoiceYesOrNo();
 
 			return new Customer(newUsername, newPassword, firstName, lastName, email, age, address, phoneNumber);
 		}
@@ -709,7 +513,7 @@ namespace WebShopCleanCode
 			string input;
 			while (true)
 			{
-				Console.WriteLine("Please write your password.");
+				Console.WriteLine("Please write your input.");
 				input = Console.ReadLine();
 				if (input.Equals(""))
 				{
@@ -723,132 +527,124 @@ namespace WebShopCleanCode
 			return input;
 		}
 
-	private void BubbleSort(string variable, bool ascending)
-	{
-		if (variable.Equals("name"))
+		private void BubbleSort(string variable, bool ascending)
 		{
-			int length = products.Count;
-			for (int i = 0; i < length - 1; i++)
+			if (variable.Equals("name"))
 			{
-				bool sorted = true;
-				int length2 = length - i;
-				for (int j = 0; j < length2 - 1; j++)
+				int length = products.Count;
+				for (int i = 0; i < length - 1; i++)
 				{
-					if (ascending)
+					bool sorted = true;
+					int length2 = length - i;
+					for (int j = 0; j < length2 - 1; j++)
 					{
-						if (products[j].Name.CompareTo(products[j + 1].Name) < 0)
+						if (ascending)
 						{
-							Product temp = products[j];
-							products[j] = products[j + 1];
-							products[j + 1] = temp;
-							sorted = false;
+							if (products[j].Name.CompareTo(products[j + 1].Name) < 0)
+							{
+								Product temp = products[j];
+								products[j] = products[j + 1];
+								products[j + 1] = temp;
+								sorted = false;
+							}
+						}
+						else
+						{
+							if (products[j].Name.CompareTo(products[j + 1].Name) > 0)
+							{
+								Product temp = products[j];
+								products[j] = products[j + 1];
+								products[j + 1] = temp;
+								sorted = false;
+							}
 						}
 					}
-					else
+					if (sorted == true)
 					{
-						if (products[j].Name.CompareTo(products[j + 1].Name) > 0)
-						{
-							Product temp = products[j];
-							products[j] = products[j + 1];
-							products[j + 1] = temp;
-							sorted = false;
-						}
+						break;
 					}
 				}
-				if (sorted == true)
+			}
+			else if (variable.Equals("price"))
+			{
+				int length = products.Count;
+				for (int i = 0; i < length - 1; i++)
 				{
-					break;
+					bool sorted = true;
+					int length2 = length - i;
+					for (int j = 0; j < length2 - 1; j++)
+					{
+						if (ascending)
+						{
+							if (products[j].Price > products[j + 1].Price)
+							{
+								Product temp = products[j];
+								products[j] = products[j + 1];
+								products[j + 1] = temp;
+								sorted = false;
+							}
+						}
+						else
+						{
+							if (products[j].Price < products[j + 1].Price)
+							{
+								Product temp = products[j];
+								products[j] = products[j + 1];
+								products[j + 1] = temp;
+								sorted = false;
+							}
+						}
+					}
+					if (sorted == true)
+					{
+						break;
+					}
 				}
 			}
 		}
-		else if (variable.Equals("price"))
+		private void SetLoginMenuOptions()
 		{
-			int length = products.Count;
-			for (int i = 0; i < length - 1; i++)
-			{
-				bool sorted = true;
-				int length2 = length - i;
-				for (int j = 0; j < length2 - 1; j++)
-				{
-					if (ascending)
-					{
-						if (products[j].Price > products[j + 1].Price)
-						{
-							Product temp = products[j];
-							products[j] = products[j + 1];
-							products[j + 1] = temp;
-							sorted = false;
-						}
-					}
-					else
-					{
-						if (products[j].Price < products[j + 1].Price)
-						{
-							Product temp = products[j];
-							products[j] = products[j + 1];
-							products[j + 1] = temp;
-							sorted = false;
-						}
-					}
-				}
-				if (sorted == true)
-				{
-					break;
-				}
-			}
-		}
-	}
-	private void SetLoginMenuOptions()
-	{
-		option1 = "Set Username";
-		option2 = "Set Password";
-		option3 = "Login";
-		option4 = "Register";
-		amountOfOptions = 4;
-		info = "Please submit username and password.";
-		currentChoice = 1;
-		currentMenu = "login menu";
-	}
-	private void SetWareMenuOptions()
-	{
-		option1 = "See all wares";
-		option2 = "Purchase a ware";
-		option3 = "Sort wares";
-		if (currentCustomer == null)
-		{
-			option4 = "Login";
-		}
-		else
-		{
-			option4 = "Logout";
-		}
-		amountOfOptions = 4;
-		currentChoice = 1;
-		currentMenu = "wares menu";
-		info = "What would you like to do?";
-	}
-	private void SetMainMenuOptions()
-	{
-		option1 = "See Wares";
-		option2 = "Customer Info";
-		if (currentCustomer == null)
-		{
+			option1 = "Set Username";
+			option2 = "Set Password";
 			option3 = "Login";
+			option4 = "Register";
+			amountOfOptions = 4;
+			info = "Please submit username and password.";
+			currentChoice = 1;
+			currentMenu = "login menu";
 		}
-		else
+		private void SetWareMenuOptions()
 		{
-			option3 = "Logout";
+			option1 = "See all wares";
+			option2 = "Purchase a ware";
+			option3 = "Sort wares";
+			SetCurrentCustomer();
+			amountOfOptions = 4;
+			currentChoice = 1;
+			currentMenu = "wares menu";
+			info = "What would you like to do?";
 		}
-		info = "What would you like to do?";
-		currentMenu = "main menu";
-		currentChoice = 1;
-		amountOfOptions = 3;
+		private void SetMainMenuOptions()
+		{
+			option1 = "See Wares";
+			option2 = "Customer Info";
+			SetCurrentCustomer();
+			info = "What would you like to do?";
+			currentMenu = "main menu";
+			currentChoice = 1;
+			amountOfOptions = 3;
+		}
+		private void SetCurrentCustomer()
+		{
+			if (currentCustomer == null)
+			{
+				option3 = "Login";
+			}
+			else
+			{
+				option3 = "Logout";
+			}
+		}
 	}
-
-	private void SetName(string name)
-	{
-
-	}
-}
 }
 
