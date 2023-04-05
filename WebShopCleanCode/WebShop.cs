@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WebShopCleanCode
@@ -12,7 +13,8 @@ namespace WebShopCleanCode
 	public class WebShop
 	{
 		Database database = new Database();
-		List<Product> products = new List<Product>();
+		//List<Product> products = new List<Product>();
+		List<ProductProxy> productProxies;
 		List<Customer> customers = new List<Customer>();
 		BubbleSort sort = new BubbleSort();
 		Customer currentCustomer;
@@ -29,7 +31,8 @@ namespace WebShopCleanCode
 		string password = null;
 		public WebShop()
 		{
-			products = database.GetProducts();
+			//products = database.GetProducts();
+			productProxies = database.GetProductProxies();
 			customers = database.GetCustomers();
 		}
 		public void Run()
@@ -119,7 +122,8 @@ namespace WebShopCleanCode
 			{
 				for (int i = 0; i < amountOfOptions; i++)
 				{
-					Console.WriteLine(i + 1 + ": " + products[i].Name + ", " + products[i].Price + "kr");
+					//Console.WriteLine(i + 1 + ": " + products[i].Name + ", " + products[i].Price + "kr");
+					productProxies[i].PrintInfo();
 				}
 				Console.WriteLine("Your funds: " + currentCustomer.Funds);
 			}
@@ -244,19 +248,19 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					products = sort.Run("name", false, products);
+					productProxies = sort.Run("name", false);
 					WriteWaresSorted();
 					break;
 				case 2:
-					products = sort.Run("name", true, products);
+					productProxies = sort.Run("name", true);
 					WriteWaresSorted();
 					break;
 				case 3:
-					products = sort.Run("price", false, products);
+					productProxies = sort.Run("price", false);
 					WriteWaresSorted();
 					break;
 				case 4:
-					products = sort.Run("price", true, products);
+					productProxies = sort.Run("price", true);
 					WriteWaresSorted();
 					break;
 				default:
@@ -275,7 +279,7 @@ namespace WebShopCleanCode
 			{
 				case 1:
 					Console.WriteLine();
-					foreach (Product product in products)
+					foreach (ProductProxy product in productProxies)
 					{
 						product.PrintInfo();
 					}
@@ -387,7 +391,8 @@ namespace WebShopCleanCode
 		private void PurchaseMenu()
 		{
 			int index = currentChoice - 1;
-			Product product = products[index];
+			//Product product = products[index];
+			Product product = database.GetProductByName(productProxies[index].Name);
 			if (product.InStock())
 			{
 				if (currentCustomer.CanAfford(product.Price))
@@ -502,7 +507,7 @@ namespace WebShopCleanCode
 			currentMenu = "purchase menu";
 			info = "What would you like to purchase?";
 			ResetCurrentChoice();
-			amountOfOptions = products.Count;
+			amountOfOptions = productProxies.Count;
 		}
 		private void SetSortMenuOptions()
 		{

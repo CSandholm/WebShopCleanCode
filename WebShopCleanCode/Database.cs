@@ -38,5 +38,18 @@ namespace WebShopCleanCode
         {
             return customersInDatabase;
         }
-    }
+        public Product GetProductByName(string name)
+        {
+            return productsInDatabase.Find(x => x.Name == name);
+        }
+		public List<ProductProxy> GetProductProxies()
+		{
+			List<ProductProxy> productProxies = new List<ProductProxy>();
+            foreach(Product product in productsInDatabase)
+            {
+                productProxies.Add(new ProductProxy(product.Name, this));
+            }
+			return productProxies;
+		}
+	}
 }
