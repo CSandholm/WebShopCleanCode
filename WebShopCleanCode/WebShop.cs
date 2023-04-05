@@ -448,7 +448,7 @@ namespace WebShopCleanCode
 			Console.WriteLine("Do you want a phone number? y/n");
 			string phoneNumber = SetChoiceYesOrNo();
 
-			return new Customer(newUsername, newPassword, firstName, lastName, email, age, address, phoneNumber);
+			return new CustomerBuilder().Username(newUsername).Password(newPassword).FirstName(firstName).LastName(lastName).Age(age).Address(address).Phone(phoneNumber).Build();
 		}
 		private string SetChoiceYesOrNo()
 		{

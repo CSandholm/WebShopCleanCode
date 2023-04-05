@@ -25,9 +25,9 @@ namespace WebShopCleanCode
             productsInDatabase.Add(new Product("Bed", 20000, 2));
 
             customersInDatabase = new List<Customer>();
-            customersInDatabase.Add(new Customer("jimmy", "jimisthebest", "Jimmy", "Jamesson", "jj@mail.com", 22, "Big Street 5", "123456789"));
-            customersInDatabase.Add(new Customer("jake", "jake123", "Jake", null, null, 0, null, null));
-        }
+			customersInDatabase.Add(new CustomerBuilder().Username("jimmy").Password("jimisthebest").FirstName("Jimmy").LastName("Jamesson").Age(22).Address("Big Street 5").Phone("123456789").Build());
+			customersInDatabase.Add(new CustomerBuilder().Username("jake").Password("jake123").Build());
+		}
 
         public List<Product> GetProducts()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebShopCleanCode
 {
-	internal class CustomerBuilder
+	public class CustomerBuilder
 	{
 		string username;
 		string password;
