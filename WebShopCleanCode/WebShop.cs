@@ -238,7 +238,6 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
-
 		private void SortMenu()
 		{
 			bool back = true;
@@ -320,7 +319,6 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
-
 		private void LoginMenu(string choice)
 		{
 			switch (currentChoice)
