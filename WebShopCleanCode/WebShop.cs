@@ -138,7 +138,6 @@ namespace WebShopCleanCode
 					Console.WriteLine("4: " + option4);
 				}
 			}
-
 			for (int i = 0; i < amountOfOptions; i++)
 			{
 				Console.Write(i + 1 + "\t");
@@ -160,7 +159,6 @@ namespace WebShopCleanCode
 				Console.WriteLine("Nobody logged in.");
 			}
 		}
-
 		private void MainMenu()
 		{
 			switch (currentChoice)
@@ -205,9 +203,7 @@ namespace WebShopCleanCode
 					}
 					break;
 				default:
-					Console.WriteLine();
-					Console.WriteLine("Not an option.");
-					Console.WriteLine();
+					WriteNotAnOption();
 					break;
 			}
 		}
@@ -250,9 +246,7 @@ namespace WebShopCleanCode
 					}
 					break;
 				default:
-					Console.WriteLine();
-					Console.WriteLine("Not an option.");
-					Console.WriteLine();
+					WriteNotAnOption();
 					break;
 			}
 		}
@@ -288,9 +282,7 @@ namespace WebShopCleanCode
 					break;
 				default:
 					back = false;
-					Console.WriteLine();
-					Console.WriteLine("Not an option.");
-					Console.WriteLine();
+					WriteNotAnOption();
 					break;
 			}
 			if (back)
@@ -355,9 +347,7 @@ namespace WebShopCleanCode
 				case 5:
 					break;
 				default:
-					Console.WriteLine();
-					Console.WriteLine("Not an option.");
-					Console.WriteLine();
+					WriteNotAnOption();
 					break;
 			}
 		}
@@ -421,13 +411,10 @@ namespace WebShopCleanCode
 					SetMainMenuOptions();
 					break;
 				default:
-					Console.WriteLine();
-					Console.WriteLine("Not an option.");
-					Console.WriteLine();
+					WriteNotAnOption();
 					break;
 			}
 		}
-
 		private void PurchaseMenu()
 		{
 			int index = currentChoice - 1;
@@ -481,7 +468,9 @@ namespace WebShopCleanCode
 			Console.WriteLine("Do you want an email? y/n");
 			string email = SetChoiceYesOrNo();
 			Console.WriteLine("Do you want an age? y/n");
-			int age = Convert.ToInt32(SetChoiceYesOrNo());
+			int age = 0;
+			try { age = Convert.ToInt32(SetChoiceYesOrNo()); }
+			catch { Console.WriteLine("Invalid input for age! Age set to 0."); }
 			Console.WriteLine("Do you want an address? y/n");
 			string address = SetChoiceYesOrNo();
 			Console.WriteLine("Do you want a phone number? y/n");
@@ -526,7 +515,6 @@ namespace WebShopCleanCode
 			}
 			return input;
 		}
-
 		private void BubbleSort(string variable, bool ascending)
 		{
 			if (variable.Equals("name"))
@@ -644,6 +632,18 @@ namespace WebShopCleanCode
 			{
 				option3 = "Logout";
 			}
+		}
+		private void WriteNotAnOption()
+		{
+			Console.WriteLine();
+			Console.WriteLine("Not an option.");
+			Console.WriteLine();
+		}
+		private void WriteWaresSorted()
+		{
+			Console.WriteLine();
+			Console.WriteLine("Wares sorted.");
+			Console.WriteLine();
 		}
 	}
 }
