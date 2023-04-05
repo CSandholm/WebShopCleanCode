@@ -14,6 +14,7 @@ namespace WebShopCleanCode
 		Database database = new Database();
 		List<Product> products = new List<Product>();
 		List<Customer> customers = new List<Customer>();
+		BubbleSort sort = new BubbleSort();
 
 		string currentMenu;
 		int currentChoice;
@@ -246,19 +247,19 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					BubbleSort("name", false);
+					products = sort.Run("name", false, products);
 					WriteWaresSorted();
 					break;
 				case 2:
-					BubbleSort("name", true);
+					products = sort.Run("name", true, products);
 					WriteWaresSorted();
 					break;
 				case 3:
-					BubbleSort("price", false);
+					products = sort.Run("price", false, products);
 					WriteWaresSorted();
 					break;
 				case 4:
-					BubbleSort("price", true);
+					products = sort.Run("price", true, products);
 					WriteWaresSorted();
 					break;
 				default:
@@ -484,81 +485,7 @@ namespace WebShopCleanCode
 			}
 			return input;
 		}
-		private void BubbleSort(string variable, bool ascending)
-		{
-			if (variable.Equals("name"))
-			{
-				int length = products.Count;
-				for (int i = 0; i < length - 1; i++)
-				{
-					bool sorted = true;
-					int length2 = length - i;
-					for (int j = 0; j < length2 - 1; j++)
-					{
-						if (ascending)
-						{
-							if (products[j].Name.CompareTo(products[j + 1].Name) < 0)
-							{
-								Product temp = products[j];
-								products[j] = products[j + 1];
-								products[j + 1] = temp;
-								sorted = false;
-							}
-						}
-						else
-						{
-							if (products[j].Name.CompareTo(products[j + 1].Name) > 0)
-							{
-								Product temp = products[j];
-								products[j] = products[j + 1];
-								products[j + 1] = temp;
-								sorted = false;
-							}
-						}
-					}
-					if (sorted == true)
-					{
-						break;
-					}
-				}
-			}
-			else if (variable.Equals("price"))
-			{
-				int length = products.Count;
-				for (int i = 0; i < length - 1; i++)
-				{
-					bool sorted = true;
-					int length2 = length - i;
-					for (int j = 0; j < length2 - 1; j++)
-					{
-						if (ascending)
-						{
-							if (products[j].Price > products[j + 1].Price)
-							{
-								Product temp = products[j];
-								products[j] = products[j + 1];
-								products[j + 1] = temp;
-								sorted = false;
-							}
-						}
-						else
-						{
-							if (products[j].Price < products[j + 1].Price)
-							{
-								Product temp = products[j];
-								products[j] = products[j + 1];
-								products[j + 1] = temp;
-								sorted = false;
-							}
-						}
-					}
-					if (sorted == true)
-					{
-						break;
-					}
-				}
-			}
-		}
+		
 		private void SetCustomerMenuOptions()
 		{
 			option1 = "See your orders";
