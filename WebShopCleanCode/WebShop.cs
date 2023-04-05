@@ -371,8 +371,6 @@ namespace WebShopCleanCode
 					}
 					break;
 				case 4:
-
-
 					Customer newCustomer = NewCustomer();
 					customers.Add(newCustomer);
 					currentCustomer = newCustomer;
@@ -606,7 +604,7 @@ namespace WebShopCleanCode
 			option1 = "See all wares";
 			option2 = "Purchase a ware";
 			option3 = "Sort wares";
-			SetCurrentCustomer();
+			option4 = SetCurrentCustomer();
 			amountOfOptions = 4;
 			ResetCurrentChoice();
 			currentMenu = "wares menu";
@@ -616,22 +614,24 @@ namespace WebShopCleanCode
 		{
 			option1 = "See Wares";
 			option2 = "Customer Info";
-			SetCurrentCustomer();
+			option3 = SetCurrentCustomer();
 			info = "What would you like to do?";
 			currentMenu = "main menu";
 			ResetCurrentChoice();
 			amountOfOptions = 3;
 		}
-		private void SetCurrentCustomer()
+		private string SetCurrentCustomer()
 		{
+			string option;
 			if (currentCustomer == null)
 			{
-				option3 = "Login";
+				option = "Login";
 			}
 			else
 			{
-				option3 = "Logout";
+				option = "Logout";
 			}
+			return option;
 		}
 		private void WriteNotAnOption()
 		{
