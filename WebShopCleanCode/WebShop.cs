@@ -15,6 +15,7 @@ namespace WebShopCleanCode
 		List<Product> products = new List<Product>();
 		List<Customer> customers = new List<Customer>();
 		BubbleSort sort = new BubbleSort();
+		Customer currentCustomer;
 
 		string currentMenu;
 		int currentChoice;
@@ -24,11 +25,8 @@ namespace WebShopCleanCode
 		string option3;
 		string option4;
 		string info;
-
 		string username = null;
 		string password = null;
-		Customer currentCustomer;
-
 		public WebShop()
 		{
 			products = database.GetProducts();
@@ -272,7 +270,6 @@ namespace WebShopCleanCode
 				SetWareMenuOptions();
 			}
 		}
-
 		private void WaresMenu()
 		{
 			switch (currentChoice)
@@ -485,7 +482,7 @@ namespace WebShopCleanCode
 			}
 			return input;
 		}
-		
+
 		private void SetCustomerMenuOptions()
 		{
 			option1 = "See your orders";
