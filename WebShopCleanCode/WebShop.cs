@@ -11,19 +11,18 @@ namespace WebShopCleanCode
 {
 	public class WebShop
 	{
-		bool running = true;
 		Database database = new Database();
 		List<Product> products = new List<Product>();
 		List<Customer> customers = new List<Customer>();
 
-		string currentMenu = "main menu";
-		int currentChoice = 1;
-		int amountOfOptions = 3;
-		string option1 = "See Wares";
-		string option2 = "Customer Info";
-		string option3 = "Login";
-		string option4 = "";
-		string info = "What would you like to do?";
+		string currentMenu;
+		int currentChoice;
+		int amountOfOptions;
+		string option1;
+		string option2;
+		string option3;
+		string option4;
+		string info;
 
 		string username = null;
 		string password = null;
@@ -34,10 +33,10 @@ namespace WebShopCleanCode
 			products = database.GetProducts();
 			customers = database.GetCustomers();
 		}
-
 		public void Run()
 		{
-			while (running)
+			SetMainMenuOptions();
+			while (true)
 			{
 				TypeMainMenu();
 				string choice = Console.ReadLine().ToLower();
@@ -107,7 +106,7 @@ namespace WebShopCleanCode
 						Console.WriteLine("The console powers down. You are free to leave.");
 						return;
 					default:
-						Console.WriteLine("That is not an applicable option.");
+						WriteNotAnOption();
 						break;
 				}
 			}
@@ -169,14 +168,7 @@ namespace WebShopCleanCode
 				case 2:
 					if (currentCustomer != null)
 					{
-						option1 = "See your orders";
-						option2 = "Set your info";
-						option3 = "Add funds";
-						option4 = "";
-						amountOfOptions = 3;
-						currentChoice = 1;
-						info = "What would you like to do?";
-						currentMenu = "customer menu";
+						SetCustomerMenuOptions();
 					}
 					else
 					{
@@ -198,7 +190,7 @@ namespace WebShopCleanCode
 						Console.WriteLine();
 						Console.WriteLine(currentCustomer.Username + " logged out.");
 						Console.WriteLine();
-						currentChoice = 1;
+						ResetCurrentChoice();
 						currentCustomer = null;
 					}
 					break;
@@ -207,7 +199,6 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
-
 		private void CustomerMenu()
 		{
 			switch (currentChoice)
@@ -240,9 +231,7 @@ namespace WebShopCleanCode
 					}
 					catch (FormatException e)
 					{
-						Console.WriteLine();
-						Console.WriteLine("Please write a number next time.");
-						Console.WriteLine();
+						WriteNotAnOption();
 					}
 					break;
 				default:
@@ -258,27 +247,19 @@ namespace WebShopCleanCode
 			{
 				case 1:
 					BubbleSort("name", false);
-					Console.WriteLine();
-					Console.WriteLine("Wares sorted.");
-					Console.WriteLine();
+					WriteWaresSorted();
 					break;
 				case 2:
 					BubbleSort("name", true);
-					Console.WriteLine();
-					Console.WriteLine("Wares sorted.");
-					Console.WriteLine();
+					WriteWaresSorted();
 					break;
 				case 3:
 					BubbleSort("price", false);
-					Console.WriteLine();
-					Console.WriteLine("Wares sorted.");
-					Console.WriteLine();
+					WriteWaresSorted();
 					break;
 				case 4:
 					BubbleSort("price", true);
-					Console.WriteLine();
-					Console.WriteLine("Wares sorted.");
-					Console.WriteLine();
+					WriteWaresSorted();
 					break;
 				default:
 					back = false;
@@ -306,28 +287,18 @@ namespace WebShopCleanCode
 				case 2:
 					if (currentCustomer != null)
 					{
-						currentMenu = "purchase menu";
-						info = "What would you like to purchase?";
-						currentChoice = 1;
-						amountOfOptions = products.Count;
+						SetPurchaseMenuOptions();
 					}
 					else
 					{
 						Console.WriteLine();
 						Console.WriteLine("You must be logged in to purchase wares.");
 						Console.WriteLine();
-						currentChoice = 1;
+						ResetCurrentChoice();
 					}
 					break;
 				case 3:
-					option1 = "Sort by name, descending";
-					option2 = "Sort by name, ascending";
-					option3 = "Sort by price, descending";
-					option4 = "Sort by price, ascending";
-					info = "How would you like to sort them?";
-					currentMenu = "sort menu";
-					currentChoice = 1;
-					amountOfOptions = 4;
+					SetSortMenuOptions();
 					break;
 				case 4:
 					if (currentCustomer == null)
@@ -341,7 +312,7 @@ namespace WebShopCleanCode
 						Console.WriteLine(currentCustomer.Username + " logged out.");
 						Console.WriteLine();
 						currentCustomer = null;
-						currentChoice = 1;
+						ResetCurrentChoice();
 					}
 					break;
 				case 5:
@@ -590,6 +561,35 @@ namespace WebShopCleanCode
 				}
 			}
 		}
+		private void SetCustomerMenuOptions()
+		{
+			option1 = "See your orders";
+			option2 = "Set your info";
+			option3 = "Add funds";
+			option4 = "";
+			amountOfOptions = 3;
+			ResetCurrentChoice();
+			info = "What would you like to do?";
+			currentMenu = "customer menu";
+		}
+		private void SetPurchaseMenuOptions()
+		{
+			currentMenu = "purchase menu";
+			info = "What would you like to purchase?";
+			ResetCurrentChoice();
+			amountOfOptions = products.Count;
+		}
+		private void SetSortMenuOptions()
+		{
+			option1 = "Sort by name, descending";
+			option2 = "Sort by name, ascending";
+			option3 = "Sort by price, descending";
+			option4 = "Sort by price, ascending";
+			info = "How would you like to sort them?";
+			currentMenu = "sort menu";
+			ResetCurrentChoice();
+			amountOfOptions = 4;
+		}
 		private void SetLoginMenuOptions()
 		{
 			option1 = "Set Username";
@@ -598,7 +598,7 @@ namespace WebShopCleanCode
 			option4 = "Register";
 			amountOfOptions = 4;
 			info = "Please submit username and password.";
-			currentChoice = 1;
+			ResetCurrentChoice();
 			currentMenu = "login menu";
 		}
 		private void SetWareMenuOptions()
@@ -608,7 +608,7 @@ namespace WebShopCleanCode
 			option3 = "Sort wares";
 			SetCurrentCustomer();
 			amountOfOptions = 4;
-			currentChoice = 1;
+			ResetCurrentChoice();
 			currentMenu = "wares menu";
 			info = "What would you like to do?";
 		}
@@ -619,7 +619,7 @@ namespace WebShopCleanCode
 			SetCurrentCustomer();
 			info = "What would you like to do?";
 			currentMenu = "main menu";
-			currentChoice = 1;
+			ResetCurrentChoice();
 			amountOfOptions = 3;
 		}
 		private void SetCurrentCustomer()
@@ -644,6 +644,10 @@ namespace WebShopCleanCode
 			Console.WriteLine();
 			Console.WriteLine("Wares sorted.");
 			Console.WriteLine();
+		}
+		private void ResetCurrentChoice()
+		{
+			currentChoice = 1;
 		}
 	}
 }
