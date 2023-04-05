@@ -430,6 +430,7 @@ namespace WebShopCleanCode
 				}
 			}
 			// Would have liked to be able to quit at any time in here.
+			Dictionary<int, string> holder = new Dictionary<int, string>();
 			Console.WriteLine("Do you want a password? y/n");
 			string newPassword = SetChoiceYesOrNo();
 			Console.WriteLine("Do you want a first name? y/n");
