@@ -35,7 +35,6 @@ namespace WebShopCleanCode
 		{
 			productProxies = database.GetProductProxies();
 			customers = database.GetCustomers();
-			context = new Context(new MainMenuState(this));
 		}
 		public void Run()
 		{
@@ -63,30 +62,7 @@ namespace WebShopCleanCode
 					case "ok":
 					case "k":
 					case "o":
-						if (currentMenu.Equals("main menu"))
-						{
-							context.Request();
-						}
-						else if (currentMenu.Equals("customer menu"))
-						{
-							CustomerMenu();
-						}
-						else if (currentMenu.Equals("sort menu"))
-						{
-							SortMenu();
-						}
-						else if (currentMenu.Equals("wares menu"))
-						{
-							WaresMenu();
-						}
-						else if (currentMenu.Equals("login menu"))
-						{
-							LoginMenu(choice);
-						}
-						else if (currentMenu.Equals("purchase menu"))
-						{
-							PurchaseMenu();
-						}
+						context.Request();
 						break;
 					case "back":
 					case "b":
@@ -205,7 +181,7 @@ namespace WebShopCleanCode
 			}
 		}
 		
-		private void CustomerMenu()
+		public void CustomerMenu()
 		{
 			switch (currentChoice)
 			{
@@ -245,7 +221,7 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
-		private void SortMenu()
+		public void SortMenu()
 		{
 			bool back = true;
 			switch (currentChoice)
@@ -276,7 +252,7 @@ namespace WebShopCleanCode
 				SetWareMenuOptions();
 			}
 		}
-		private void WaresMenu()
+		public void WaresMenu()
 		{
 			switch (currentChoice)
 			{
@@ -326,7 +302,7 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
-		private void LoginMenu(string choice)
+		public void LoginMenu()
 		{
 			switch (currentChoice)
 			{
@@ -391,7 +367,7 @@ namespace WebShopCleanCode
 			Console.WriteLine(newCustomer.Username + " successfully added and is now logged in.");
 			Console.WriteLine();
 		}
-		private void PurchaseMenu()
+		public void PurchaseMenu()
 		{
 			int index = currentChoice - 1;
 			//Product product = products[index];
@@ -502,6 +478,7 @@ namespace WebShopCleanCode
 			ResetCurrentChoice();
 			info = "What would you like to do?";
 			currentMenu = "customer menu";
+			context = new Context(new CustomerMenuState(this));
 		}
 		private void SetPurchaseMenuOptions()
 		{
@@ -509,6 +486,7 @@ namespace WebShopCleanCode
 			info = "What would you like to purchase?";
 			ResetCurrentChoice();
 			amountOfOptions = productProxies.Count;
+			context = new Context(new PurchaseMenuState(this));
 		}
 		private void SetSortMenuOptions()
 		{
@@ -520,6 +498,7 @@ namespace WebShopCleanCode
 			currentMenu = "sort menu";
 			ResetCurrentChoice();
 			amountOfOptions = 4;
+			context = new Context(new SortMenuState(this));
 		}
 		private void SetLoginMenuOptions()
 		{
@@ -531,6 +510,7 @@ namespace WebShopCleanCode
 			info = "Please submit username and password.";
 			ResetCurrentChoice();
 			currentMenu = "login menu";
+			context = new Context(new LoginMenuState(this));
 		}
 		private void SetWareMenuOptions()
 		{
@@ -542,6 +522,7 @@ namespace WebShopCleanCode
 			ResetCurrentChoice();
 			currentMenu = "wares menu";
 			info = "What would you like to do?";
+			context = new Context(new WareMenuState(this));
 		}
 		private void SetMainMenuOptions()
 		{
@@ -552,6 +533,7 @@ namespace WebShopCleanCode
 			currentMenu = "main menu";
 			ResetCurrentChoice();
 			amountOfOptions = 3;
+			context = new Context(new MainMenuState(this));
 		}
 		private string SetCurrentCustomer()
 		{
