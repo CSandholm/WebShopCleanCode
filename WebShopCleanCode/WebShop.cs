@@ -6,11 +6,12 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WebShopCleanCode.MenuStates;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WebShopCleanCode
 {
-	public class WebShop
+    public class WebShop
 	{
 		Database database = new Database();
 		List<ProductProxy> productProxies;
@@ -20,6 +21,7 @@ namespace WebShopCleanCode
 		Context context;
 		MainMenuState menuState = new MainMenuState(); //BLERGH!
 
+		//Make properties? Or make into object?
 		string currentMenu;
 		int currentChoice;
 		int amountOfOptions;
@@ -68,7 +70,8 @@ namespace WebShopCleanCode
 					case "o":
 						if (currentMenu.Equals("main menu"))
 						{
-							MainMenu();
+							context.Request();
+							//MainMenu();
 						}
 						else if (currentMenu.Equals("customer menu"))
 						{
@@ -238,7 +241,7 @@ namespace WebShopCleanCode
 							Console.WriteLine();
 						}
 					}
-					catch (FormatException e)
+					catch
 					{
 						WriteNotAnOption();
 					}
@@ -439,7 +442,6 @@ namespace WebShopCleanCode
 				}
 			}
 			// Would have liked to be able to quit at any time in here.
-			Dictionary<int, string> holder = new Dictionary<int, string>();
 			Console.WriteLine("Do you want a password? y/n");
 			string newPassword = SetChoiceYesOrNo();
 			Console.WriteLine("Do you want a first name? y/n");
@@ -457,7 +459,7 @@ namespace WebShopCleanCode
 			Console.WriteLine("Do you want a phone number? y/n");
 			string phoneNumber = SetChoiceYesOrNo();
 
-			return new CustomerBuilder().Username(newUsername).Password(newPassword).FirstName(firstName).LastName(lastName).Age(age).Address(address).Phone(phoneNumber).Build();
+			return new CustomerBuilder().Username(newUsername).Password(newPassword).FirstName(firstName).LastName(lastName).Email(email).Age(age).Address(address).Phone(phoneNumber).Build();
 		}
 		private string SetChoiceYesOrNo()
 		{

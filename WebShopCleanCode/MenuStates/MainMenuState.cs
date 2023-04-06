@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebShopCleanCode
+namespace WebShopCleanCode.MenuStates
 {
-	public class MainMenuState : IState
-	{
-		
-	}
+    public class MainMenuState : IState
+    {
+
+    }
 }
