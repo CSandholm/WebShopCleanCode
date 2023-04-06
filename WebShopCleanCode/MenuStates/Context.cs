@@ -8,8 +8,8 @@ namespace WebShopCleanCode.MenuStates
 {
     public class Context
     {
-        IState state;
-        public Context(IState state)
+        AbstractState state;
+        public Context(AbstractState state)
         {
             this.state = state;
         }

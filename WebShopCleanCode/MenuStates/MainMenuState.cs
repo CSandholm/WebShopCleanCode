@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace WebShopCleanCode.MenuStates
 {
-    public class MainMenuState : IState
+    public class MainMenuState : AbstractState
     {
-
+        public MainMenuState(WebShop webShop)
+        {
+            request = () => { webShop.MainMenu(); };
+        }
     }
 }

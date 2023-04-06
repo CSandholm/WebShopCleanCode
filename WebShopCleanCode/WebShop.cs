@@ -19,7 +19,6 @@ namespace WebShopCleanCode
 		BubbleSort sort = new BubbleSort();
 		Customer currentCustomer;
 		Context context;
-		MainMenuState menuState = new MainMenuState(); //BLERGH!
 
 		//Make properties? Or make into object?
 		string currentMenu;
@@ -36,11 +35,7 @@ namespace WebShopCleanCode
 		{
 			productProxies = database.GetProductProxies();
 			customers = database.GetCustomers();
-
-			//ATM IState request is a delegate and delegation happens in the constructor.
-			//I'd like a way to delegate in the MainMenuState class, not here.
-			menuState.request = () => { MainMenu(); };
-			context = new Context(menuState);
+			context = new Context(new MainMenuState(this));
 		}
 		public void Run()
 		{
@@ -71,7 +66,6 @@ namespace WebShopCleanCode
 						if (currentMenu.Equals("main menu"))
 						{
 							context.Request();
-							//MainMenu();
 						}
 						else if (currentMenu.Equals("customer menu"))
 						{
@@ -169,7 +163,7 @@ namespace WebShopCleanCode
 			}
 		}
 		
-		private void MainMenu()
+		public void MainMenu()
 		{
 			switch (currentChoice)
 			{
