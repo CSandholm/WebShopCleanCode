@@ -16,13 +16,14 @@ namespace WebShopCleanCode.OptionStates
 			Option2 = "Customer Info";
 			Option3 = webShop.SetCurrentCustomer();
 			Info = "What would you like to do?";
-			CurrentChoice = webShop.currentChoice;
+			CurrentChoice = 1;
 			AmountOfOptions = 3;
 			MenuContext = new MenuContext(new MainMenuState(webShop));
 			WebShop = webShop;
 		}
 		public override void WriteOptionMenu()
 		{
+			CurrentChoice = WebShop.currentChoice;
 			Write = new Write();
 			Write.WriteOptionMenu(this);
 		}

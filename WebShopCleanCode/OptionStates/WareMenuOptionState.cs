@@ -16,7 +16,7 @@ namespace WebShopCleanCode.OptionStates
 			Option3 = "Sort wares";
 			Option4 = webShop.SetCurrentCustomer();
 			AmountOfOptions = 4;
-			CurrentChoice = webShop.currentChoice;
+			CurrentChoice = 1;
 			Info = "What would you like to do?";
 			MenuContext = new MenuContext(new WareMenuState(webShop));
 			WebShop = webShop;
@@ -28,6 +28,7 @@ namespace WebShopCleanCode.OptionStates
 
 		public override void WriteOptionMenu()
 		{
+			CurrentChoice = WebShop.currentChoice;
 			Write = new Write();
 			Write.WriteOptionMenu(this);
 		}

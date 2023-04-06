@@ -17,7 +17,7 @@ namespace WebShopCleanCode.OptionStates
 			Option4 = "Register";
 			AmountOfOptions = 4;
 			Info = "Please submit username and password.";
-			CurrentChoice = webShop.currentChoice;
+			CurrentChoice = 1;
 			MenuContext = new MenuContext(new LoginMenuState(webShop));
 			WebShop = webShop;
 		}
@@ -28,6 +28,7 @@ namespace WebShopCleanCode.OptionStates
 
 		public override void WriteOptionMenu()
 		{
+			CurrentChoice = WebShop.currentChoice;
 			Write = new Write();
 			Write.WriteOptionMenu(this);
 		}

@@ -87,11 +87,13 @@ namespace WebShopCleanCode
 						}
 						else if (currentMenu.Equals("purchase menu"))
 						{
+							ResetCurrentChoice();
 							optionContext = new OptionContext(new WareMenuOptionState(this));
 							//SetWareMenuOptions();
 						}
 						else
 						{
+							ResetCurrentChoice();
 							optionContext = new OptionContext(new MainMenuOptionState(this));
 							//SetMainMenuOptions();
 						}
@@ -108,59 +110,21 @@ namespace WebShopCleanCode
 		}
 		private void WriteMenuFromOptionContext()
 		{
-			//write.Welcome();
-			//write.Info(this);
-			
-			//write.Options(this);
 			optionContext.WriteOptionMenu();
-			
-			/*
-			if (currentMenu.Equals("purchase menu"))
-			{
-				for (int i = 0; i < amountOfOptions; i++)
-				{
-					productProxies[i].PrintInfo();
-				}
-				write.Funds(CurrentCustomer);
-			}
-			else
-			{
-				//write.Options(this);
-			}
-
-			for (int i = 0; i < amountOfOptions; i++)
-			{
-				Console.Write(i + 1 + "\t");
-			}
-			Console.WriteLine();
-			for (int i = 1; i < currentChoice; i++)
-			{
-				Console.Write("\t");
-			}
-			Console.WriteLine("|");
-
-			Console.WriteLine("Your buttons are Left, Right, OK, Back and Quit.");
-			if (CurrentCustomer != null)
-			{
-				Console.WriteLine("Current user: " + CurrentCustomer.Username);
-			}
-			else
-			{
-				Console.WriteLine("Nobody logged in.");
-			} */
 		}
-		
 		public void MainMenu()
 		{
 			switch (currentChoice)
 			{
 				case 1:
+					ResetCurrentChoice();
 					optionContext = new OptionContext(new WareMenuOptionState(this));
 					//SetWareMenuOptions();
 					break;
 				case 2:
 					if (CurrentCustomer != null)
 					{
+						ResetCurrentChoice();
 						optionContext = new OptionContext(new CustomerMenuOptionState(this));
 						//SetCustomerMenuOptions();
 					}
@@ -172,6 +136,7 @@ namespace WebShopCleanCode
 				case 3:
 					if (CurrentCustomer == null)
 					{
+						ResetCurrentChoice();
 						optionContext = new OptionContext(new LoginMenuOptionState(this));
 						//SetLoginMenuOptions();
 						username = null;
@@ -190,7 +155,6 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
-		
 		public void CustomerMenu()
 		{
 			switch (currentChoice)
@@ -255,6 +219,7 @@ namespace WebShopCleanCode
 			}
 			if (back)
 			{
+				ResetCurrentChoice();
 				optionContext = new OptionContext(new WareMenuOptionState(this));
 				//SetWareMenuOptions();
 			}
@@ -274,6 +239,7 @@ namespace WebShopCleanCode
 				case 2:
 					if (CurrentCustomer != null)
 					{
+						ResetCurrentChoice();
 						optionContext = new OptionContext(new PurchaseMenuOptionState(this));
 						//SetPurchaseMenuOptions();
 					}
@@ -284,12 +250,14 @@ namespace WebShopCleanCode
 					}
 					break;
 				case 3:
+					ResetCurrentChoice();
 					optionContext = new OptionContext(new SortMenuOptionState(this));
 					//SetSortMenuOptions();
 					break;
 				case 4:
 					if (CurrentCustomer == null)
 					{
+						ResetCurrentChoice();
 						optionContext = new OptionContext(new LoginMenuOptionState(this));
 						//SetLoginMenuOptions();
 					}
@@ -339,6 +307,7 @@ namespace WebShopCleanCode
 								write.LoggedIn(customer);
 								CurrentCustomer = customer;
 								found = true;
+								ResetCurrentChoice();
 								optionContext = new OptionContext(new MainMenuOptionState(this));
 								//SetMainMenuOptions();
 								break;
@@ -352,6 +321,7 @@ namespace WebShopCleanCode
 					break;
 				case 4:
 					AddNewCustomer();
+					ResetCurrentChoice();
 					optionContext = new OptionContext(new MainMenuOptionState(this));
 					//SetMainMenuOptions();
 					break;
@@ -392,6 +362,7 @@ namespace WebShopCleanCode
 		}
 		private Customer NewCustomer()
 		{
+			ResetCurrentChoice();
 			CustomerBuilder cb = new CustomerBuilder();
 
 			write.WriteUsername();
@@ -457,76 +428,6 @@ namespace WebShopCleanCode
 			}
 			return input;
 		}
-		/*
-		private void SetCustomerMenuOptions()
-		{
-			option1 = "See your orders";
-			option2 = "Set your info";
-			option3 = "Add funds";
-			option4 = "";
-			amountOfOptions = 3;
-			ResetCurrentChoice();
-			info = "What would you like to do?";
-			currentMenu = "customer menu";
-			menuContext = new MenuContext(new CustomerMenuState(this));
-		}
-		private void SetPurchaseMenuOptions()
-		{
-			currentMenu = "purchase menu";
-			info = "What would you like to purchase?";
-			ResetCurrentChoice();
-			amountOfOptions = productProxies.Count;
-			menuContext = new MenuContext(new PurchaseMenuState(this));
-		}
-		private void SetSortMenuOptions()
-		{
-			option1 = "Sort by name, descending";
-			option2 = "Sort by name, ascending";
-			option3 = "Sort by price, descending";
-			option4 = "Sort by price, ascending";
-			info = "How would you like to sort them?";
-			currentMenu = "sort menu";
-			ResetCurrentChoice();
-			amountOfOptions = 4;
-			menuContext = new MenuContext(new SortMenuState(this));
-		}
-		private void SetLoginMenuOptions()
-		{
-			option1 = "Set Username";
-			option2 = "Set Password";
-			option3 = "Login";
-			option4 = "Register";
-			amountOfOptions = 4;
-			info = "Please submit username and password.";
-			ResetCurrentChoice();
-			currentMenu = "login menu";
-			menuContext = new MenuContext(new LoginMenuState(this));
-		}
-		private void SetWareMenuOptions()
-		{
-			option1 = "See all wares";
-			option2 = "Purchase a ware";
-			option3 = "Sort wares";
-			option4 = SetCurrentCustomer();
-			amountOfOptions = 4;
-			ResetCurrentChoice();
-			currentMenu = "wares menu";
-			info = "What would you like to do?";
-			menuContext = new MenuContext(new WareMenuState(this));
-		}
-
-		private void SetMainMenuOptions()
-		{
-			option1 = "See Wares";
-			option2 = "Customer Info";
-			option3 = SetCurrentCustomer();
-			info = "What would you like to do?";
-			currentMenu = "main menu";
-			ResetCurrentChoice();
-			amountOfOptions = 3;
-			menuContext = new MenuContext(new MainMenuState(this));
-		}
-		*/
 		public string SetCurrentCustomer()
 		{
 			string option;

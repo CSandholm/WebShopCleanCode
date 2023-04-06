@@ -15,7 +15,7 @@ namespace WebShopCleanCode.OptionStates
 			Option2 = "Sort by name, ascending";
 			Option3 = "Sort by price, descending";
 			Option4 = "Sort by price, ascending";
-			CurrentChoice = webShop.currentChoice;
+			CurrentChoice = 1;
 			Info = "How would you like to sort them?";
 			AmountOfOptions = 4;
 			MenuContext = new MenuContext(new SortMenuState(webShop));
@@ -28,6 +28,7 @@ namespace WebShopCleanCode.OptionStates
 
 		public override void WriteOptionMenu()
 		{
+			CurrentChoice = WebShop.currentChoice;
 			Write = new Write();
 			Write.WriteOptionMenu(this);
 		}
