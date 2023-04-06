@@ -13,7 +13,7 @@ namespace WebShopCleanCode
 		Database db;
 
 		//With a proxy design patters we can avoid memory overflow with unwanted loading of objects we're not going
-		//to use. Here a proxy object is created that is used to find the actual object in the database. However,
+		//to use. A proxy object is created that is used to find the actual object in the database. However,
 		//it is null until we actually use it.
 
 		public ProductProxy(string username, Database db)

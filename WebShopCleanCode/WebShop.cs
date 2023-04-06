@@ -13,11 +13,12 @@ namespace WebShopCleanCode
 	public class WebShop
 	{
 		Database database = new Database();
-		//List<Product> products = new List<Product>();
 		List<ProductProxy> productProxies;
 		List<Customer> customers = new List<Customer>();
 		BubbleSort sort = new BubbleSort();
 		Customer currentCustomer;
+		Context context;
+		MainMenuState menuState = new MainMenuState(); //BLERGH!
 
 		string currentMenu;
 		int currentChoice;
@@ -31,9 +32,13 @@ namespace WebShopCleanCode
 		string password = null;
 		public WebShop()
 		{
-			//products = database.GetProducts();
 			productProxies = database.GetProductProxies();
 			customers = database.GetCustomers();
+
+			//ATM IState request is a delegate and delegation happens in the constructor.
+			//I'd like a way to delegate in the MainMenuState class, not here.
+			menuState.request = () => { MainMenu(); };
+			context = new Context(menuState);
 		}
 		public void Run()
 		{
@@ -122,7 +127,6 @@ namespace WebShopCleanCode
 			{
 				for (int i = 0; i < amountOfOptions; i++)
 				{
-					//Console.WriteLine(i + 1 + ": " + products[i].Name + ", " + products[i].Price + "kr");
 					productProxies[i].PrintInfo();
 				}
 				Console.WriteLine("Your funds: " + currentCustomer.Funds);
@@ -161,6 +165,7 @@ namespace WebShopCleanCode
 				Console.WriteLine("Nobody logged in.");
 			}
 		}
+		
 		private void MainMenu()
 		{
 			switch (currentChoice)
@@ -202,6 +207,7 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
+		
 		private void CustomerMenu()
 		{
 			switch (currentChoice)
@@ -490,7 +496,6 @@ namespace WebShopCleanCode
 			}
 			return input;
 		}
-
 		private void SetCustomerMenuOptions()
 		{
 			option1 = "See your orders";
