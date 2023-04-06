@@ -8,11 +8,14 @@ namespace WebShopCleanCode
 {
 	internal class BubbleSort
 	{
-		Database db;
-		public List<ProductProxy> Run(string variable, bool ascending)
+		public List<ProductProxy> Run(string variable, bool ascending, Database db, List<ProductProxy> list)
 		{
-			db = new Database();
-			List<Product> products = db.GetProducts();
+			List<Product> products = new List<Product>();
+			foreach(ProductProxy proxy in list)
+			{
+				proxy.Load();
+				products.Add(proxy.product);
+			}
 			if (variable.Equals("name"))
 			{
 				int length = products.Count;
@@ -85,7 +88,6 @@ namespace WebShopCleanCode
 					}
 				}
 			}
-
 			List<ProductProxy> productProxies = new List<ProductProxy>();
 			foreach (Product product in products)
 			{

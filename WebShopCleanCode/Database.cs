@@ -9,9 +9,12 @@ namespace WebShopCleanCode
     public class Database
     {
         // We just pretend this accesses a real database.
+
+        //Make a singleton database
+
         private List<Product> productsInDatabase;
         private List<Customer> customersInDatabase;
-        public Database()
+        private Database()
         {
             productsInDatabase = new List<Product>();
             productsInDatabase.Add(new Product("Mirror", 300, 2));
@@ -28,6 +31,11 @@ namespace WebShopCleanCode
 			customersInDatabase.Add(new CustomerBuilder().Username("jimmy").Password("jimisthebest").FirstName("Jimmy").LastName("Jamesson").Age(22).Address("Big Street 5").Phone("123456789").Build());
 			customersInDatabase.Add(new CustomerBuilder().Username("jake").Password("jake123").Build());
 		}
+        public static Database Instance  
+        { 
+            get; 
+            set; 
+        }
 
         public List<Product> GetProducts()
         {

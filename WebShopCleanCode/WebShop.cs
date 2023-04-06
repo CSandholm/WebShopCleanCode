@@ -89,13 +89,11 @@ namespace WebShopCleanCode
 						{
 							ResetCurrentChoice();
 							optionContext = new OptionContext(new WareMenuOptionState(this));
-							//SetWareMenuOptions();
 						}
 						else
 						{
 							ResetCurrentChoice();
 							optionContext = new OptionContext(new MainMenuOptionState(this));
-							//SetMainMenuOptions();
 						}
 						break;
 					case "quit":
@@ -119,14 +117,12 @@ namespace WebShopCleanCode
 				case 1:
 					ResetCurrentChoice();
 					optionContext = new OptionContext(new WareMenuOptionState(this));
-					//SetWareMenuOptions();
 					break;
 				case 2:
 					if (CurrentCustomer != null)
 					{
 						ResetCurrentChoice();
 						optionContext = new OptionContext(new CustomerMenuOptionState(this));
-						//SetCustomerMenuOptions();
 					}
 					else
 					{
@@ -138,7 +134,6 @@ namespace WebShopCleanCode
 					{
 						ResetCurrentChoice();
 						optionContext = new OptionContext(new LoginMenuOptionState(this));
-						//SetLoginMenuOptions();
 						username = null;
 						password = null;
 					}
@@ -197,19 +192,19 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					productProxies = sort.Run("name", false);
+					productProxies = sort.Run("name", false, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 2:
-					productProxies = sort.Run("name", true);
+					productProxies = sort.Run("name", true, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 3:
-					productProxies = sort.Run("price", false);
+					productProxies = sort.Run("price", false, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 4:
-					productProxies = sort.Run("price", true);
+					productProxies = sort.Run("price", true, database, productProxies);
 					write.WaresSorted();
 					break;
 				default:
@@ -221,7 +216,6 @@ namespace WebShopCleanCode
 			{
 				ResetCurrentChoice();
 				optionContext = new OptionContext(new WareMenuOptionState(this));
-				//SetWareMenuOptions();
 			}
 		}
 		public void WaresMenu()
@@ -241,7 +235,6 @@ namespace WebShopCleanCode
 					{
 						ResetCurrentChoice();
 						optionContext = new OptionContext(new PurchaseMenuOptionState(this));
-						//SetPurchaseMenuOptions();
 					}
 					else
 					{
@@ -252,14 +245,12 @@ namespace WebShopCleanCode
 				case 3:
 					ResetCurrentChoice();
 					optionContext = new OptionContext(new SortMenuOptionState(this));
-					//SetSortMenuOptions();
 					break;
 				case 4:
 					if (CurrentCustomer == null)
 					{
 						ResetCurrentChoice();
 						optionContext = new OptionContext(new LoginMenuOptionState(this));
-						//SetLoginMenuOptions();
 					}
 					else
 					{
@@ -309,7 +300,6 @@ namespace WebShopCleanCode
 								found = true;
 								ResetCurrentChoice();
 								optionContext = new OptionContext(new MainMenuOptionState(this));
-								//SetMainMenuOptions();
 								break;
 							}
 						}
@@ -323,7 +313,6 @@ namespace WebShopCleanCode
 					AddNewCustomer();
 					ResetCurrentChoice();
 					optionContext = new OptionContext(new MainMenuOptionState(this));
-					//SetMainMenuOptions();
 					break;
 				default:
 					write.NotAnOption();
@@ -376,7 +365,6 @@ namespace WebShopCleanCode
 				}
 			}
 			cb.Username(newUsername);
-			// Would have liked to be able to quit at any time in here.
 
 			write.NewCustomerChoice("Password");
 			cb.Password(SetChoiceYesOrNo());

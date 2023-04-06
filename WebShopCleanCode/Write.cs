@@ -156,7 +156,7 @@ namespace WebShopCleanCode
 		}
 		public void NewCustomerChoice(string current)
 		{
-			Console.WriteLine($"Do you want a {0}? y/n", current);
+			Console.WriteLine(@"Do you want a {0}? y/n", current);
 		}
 		public void InvalidAge()
 		{
@@ -182,7 +182,6 @@ namespace WebShopCleanCode
 		{
 			Console.WriteLine();
 		}
-
 		public void WriteOptionMenu(AbstractOptionState state)
 		{
 			Welcome();

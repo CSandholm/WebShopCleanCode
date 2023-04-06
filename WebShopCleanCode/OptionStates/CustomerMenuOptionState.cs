@@ -9,8 +9,7 @@ namespace WebShopCleanCode.OptionStates
 {
 	internal class CustomerMenuOptionState : AbstractOptionState
 	{
-
-		public CustomerMenuOptionState(WebShop webShop) 
+		public CustomerMenuOptionState(WebShop webShop)
 		{
 			Option1 = "See your orders";
 			Option2 = "Set your info";

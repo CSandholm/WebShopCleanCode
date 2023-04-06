@@ -9,7 +9,7 @@ namespace WebShopCleanCode
 	public class ProductProxy
 	{
 		public string Name { get; set; }
-		private Product product;
+		public Product product;
 		Database db;
 
 		//With a proxy design patters we can avoid memory overflow with unwanted loading of objects we're not going
