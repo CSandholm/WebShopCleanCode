@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,9 @@ namespace WebShopCleanCode
 		BubbleSort sort = new BubbleSort();
 		Customer currentCustomer;
 		Context context;
+		Write write = new Write();
+
+		//Dictionary med commands eller delegates för val i menyn
 
 		//Make properties? Or make into object?
 		string currentMenu;
@@ -29,19 +33,28 @@ namespace WebShopCleanCode
 		string option3;
 		string option4;
 		string info;
+		public string Info { get { return info; } set { info = value; } }
+		public string Option1 { get{ return option1; } set { option1 = value; } }
+		public string Option2 { get{ return option2; } set { option2 = value; } }
+		public string Option3 { get{ return option3; } set { option3 = value; } }
+		public string Option4 { get{ return option4; } set { option4 = value; } }
+		public int AmountOfOptions { get { return amountOfOptions; } set {; } }
+		public int CurrentCostumerFunds { get { return currentCustomer.Funds; } set { currentCustomer.Funds = value; } }
+
+
 		string username = null;
 		string password = null;
 		public WebShop()
 		{
 			productProxies = database.GetProductProxies();
 			customers = database.GetCustomers();
+			SetMainMenuOptions();
 		}
 		public void Run()
 		{
-			SetMainMenuOptions();
 			while (true)
 			{
-				TypeMainMenu();
+				WriteMainMenu();
 				string choice = Console.ReadLine().ToLower();
 				switch (choice)
 				{
@@ -68,9 +81,7 @@ namespace WebShopCleanCode
 					case "b":
 						if (currentMenu.Equals("main menu"))
 						{
-							Console.WriteLine();
-							Console.WriteLine("You're already on the main menu.");
-							Console.WriteLine();
+							write.AlreadyInMainMenu();
 						}
 						else if (currentMenu.Equals("purchase menu"))
 						{
@@ -83,18 +94,18 @@ namespace WebShopCleanCode
 						break;
 					case "quit":
 					case "q":
-						Console.WriteLine("The console powers down. You are free to leave.");
+						write.PowerDown();
 						return;
 					default:
-						WriteNotAnOption();
+						write.NotAnOption();
 						break;
 				}
 			}
 		}
-		private void TypeMainMenu()
+		private void WriteMainMenu()
 		{
-			Console.WriteLine("Welcome to the WebShop!");
-			Console.WriteLine(info);
+			write.Welcome();
+			write.Info(this);
 
 			if (currentMenu.Equals("purchase menu"))
 			{
@@ -102,21 +113,13 @@ namespace WebShopCleanCode
 				{
 					productProxies[i].PrintInfo();
 				}
-				Console.WriteLine("Your funds: " + currentCustomer.Funds);
+				write.Funds(currentCustomer);
 			}
 			else
 			{
-				Console.WriteLine("1: " + option1);
-				Console.WriteLine("2: " + option2);
-				if (amountOfOptions > 2)
-				{
-					Console.WriteLine("3: " + option3);
-				}
-				if (amountOfOptions > 3)
-				{
-					Console.WriteLine("4: " + option4);
-				}
+				write.Options(this);
 			}
+
 			for (int i = 0; i < amountOfOptions; i++)
 			{
 				Console.Write(i + 1 + "\t");
@@ -153,9 +156,7 @@ namespace WebShopCleanCode
 					}
 					else
 					{
-						Console.WriteLine();
-						Console.WriteLine("Nobody is logged in.");
-						Console.WriteLine();
+						write.NobodyLoggedIn();
 					}
 					break;
 				case 3:
@@ -168,15 +169,13 @@ namespace WebShopCleanCode
 					else
 					{
 						option3 = "Login";
-						Console.WriteLine();
-						Console.WriteLine(currentCustomer.Username + " logged out.");
-						Console.WriteLine();
+						write.LoggingOut(currentCustomer);
 						ResetCurrentChoice();
 						currentCustomer = null;
 					}
 					break;
 				default:
-					WriteNotAnOption();
+					write.NotAnOption();
 					break;
 			}
 		}
@@ -192,32 +191,28 @@ namespace WebShopCleanCode
 					currentCustomer.PrintInfo();
 					break;
 				case 3:
-					Console.WriteLine("How many funds would you like to add?");
+					write.FundToAdd();
 					string amountString = Console.ReadLine();
 					try
 					{
 						int amount = int.Parse(amountString);
 						if (amount < 0)
 						{
-							Console.WriteLine();
-							Console.WriteLine("Don't add negative amounts.");
-							Console.WriteLine();
+							write.ErrorNegativeAmount();
 						}
 						else
 						{
 							currentCustomer.Funds += amount;
-							Console.WriteLine();
-							Console.WriteLine(amount + " added to your profile.");
-							Console.WriteLine();
+							write.AmountAdded(amount);
 						}
 					}
 					catch
 					{
-						WriteNotAnOption();
+						write.NotAnOption();
 					}
 					break;
 				default:
-					WriteNotAnOption();
+					write.NotAnOption();
 					break;
 			}
 		}
@@ -228,23 +223,23 @@ namespace WebShopCleanCode
 			{
 				case 1:
 					productProxies = sort.Run("name", false);
-					WriteWaresSorted();
+					write.WaresSorted();
 					break;
 				case 2:
 					productProxies = sort.Run("name", true);
-					WriteWaresSorted();
+					write.WaresSorted();
 					break;
 				case 3:
 					productProxies = sort.Run("price", false);
-					WriteWaresSorted();
+					write.WaresSorted();
 					break;
 				case 4:
 					productProxies = sort.Run("price", true);
-					WriteWaresSorted();
+					write.WaresSorted();
 					break;
 				default:
 					back = false;
-					WriteNotAnOption();
+					write.NotAnOption();
 					break;
 			}
 			if (back)
@@ -257,12 +252,12 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					Console.WriteLine();
+					write.WriteEmptyLine();
 					foreach (ProductProxy product in productProxies)
 					{
 						product.PrintInfo();
 					}
-					Console.WriteLine();
+					write.WriteEmptyLine();
 					break;
 				case 2:
 					if (currentCustomer != null)
@@ -271,9 +266,7 @@ namespace WebShopCleanCode
 					}
 					else
 					{
-						Console.WriteLine();
-						Console.WriteLine("You must be logged in to purchase wares.");
-						Console.WriteLine();
+						write.ErrorLoginToPurchaseWare();
 						ResetCurrentChoice();
 					}
 					break;
@@ -288,9 +281,7 @@ namespace WebShopCleanCode
 					else
 					{
 						option4 = "Login";
-						Console.WriteLine();
-						Console.WriteLine(currentCustomer.Username + " logged out.");
-						Console.WriteLine();
+						write.LoggingOut(currentCustomer);
 						currentCustomer = null;
 						ResetCurrentChoice();
 					}
@@ -298,7 +289,7 @@ namespace WebShopCleanCode
 				case 5:
 					break;
 				default:
-					WriteNotAnOption();
+					write.NotAnOption();
 					break;
 			}
 		}
@@ -307,23 +298,21 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					Console.WriteLine("A keyboard appears.");
-					Console.WriteLine("Please input your username.");
+					write.KeyboardAppears();
+					write.InputUsername();
 					username = Console.ReadLine();
-					Console.WriteLine();
+					write.WriteEmptyLine();
 					break;
 				case 2:
-					Console.WriteLine("A keyboard appears.");
-					Console.WriteLine("Please input your password.");
+					write.KeyboardAppears();
+					write.InputPassword();
 					password = Console.ReadLine();
-					Console.WriteLine();
+					write.WriteEmptyLine();
 					break;
 				case 3:
 					if (username == null || password == null)
 					{
-						Console.WriteLine();
-						Console.WriteLine("Incomplete data.");
-						Console.WriteLine();
+						write.IncompleteData();
 					}
 					else
 					{
@@ -332,9 +321,7 @@ namespace WebShopCleanCode
 						{
 							if (username.Equals(customer.Username) && customer.CheckPassword(password))
 							{
-								Console.WriteLine();
-								Console.WriteLine(customer.Username + " logged in.");
-								Console.WriteLine();
+								write.LoggedIn(customer);
 								currentCustomer = customer;
 								found = true;
 								SetMainMenuOptions();
@@ -343,9 +330,7 @@ namespace WebShopCleanCode
 						}
 						if (found == false)
 						{
-							Console.WriteLine();
-							Console.WriteLine("Invalid credentials.");
-							Console.WriteLine();
+							write.InvalidCredentials();
 						}
 					}
 					break;
@@ -354,7 +339,7 @@ namespace WebShopCleanCode
 					SetMainMenuOptions();
 					break;
 				default:
-					WriteNotAnOption();
+					write.NotAnOption();
 					break;
 			}
 		}
@@ -363,14 +348,11 @@ namespace WebShopCleanCode
 			Customer newCustomer = NewCustomer();
 			customers.Add(newCustomer);
 			currentCustomer = newCustomer;
-			Console.WriteLine();
-			Console.WriteLine(newCustomer.Username + " successfully added and is now logged in.");
-			Console.WriteLine();
+			write.AddedCustomer(newCustomer);
 		}
 		public void PurchaseMenu()
 		{
 			int index = currentChoice - 1;
-			//Product product = products[index];
 			Product product = database.GetProductByName(productProxies[index].Name);
 			if (product.InStock())
 			{
@@ -379,57 +361,51 @@ namespace WebShopCleanCode
 					currentCustomer.Funds -= product.Price;
 					product.NrInStock--;
 					currentCustomer.Orders.Add(new Order(product.Name, product.Price, DateTime.Now));
-					Console.WriteLine();
-					Console.WriteLine("Successfully bought " + product.Name);
-					Console.WriteLine();
+					write.SuccefullyBoughtItem(product);
 				}
 				else
 				{
-					Console.WriteLine();
-					Console.WriteLine("You cannot afford.");
-					Console.WriteLine();
+					write.CannotAfford();
 				}
 			}
 			else
 			{
-				Console.WriteLine();
-				Console.WriteLine("Not in stock.");
-				Console.WriteLine();
+				write.NotInStock();
 			}
 		}
 		private Customer NewCustomer()
 		{
-			Console.WriteLine("Please write your username.");
+			CustomerBuilder cb = new CustomerBuilder();
+
+			write.WriteUsername();
 			string newUsername = Console.ReadLine();
 			foreach (Customer customer in customers)
 			{
 				if (customer.Username.Equals(username))
 				{
-					Console.WriteLine();
-					Console.WriteLine("Username already exists.");
-					Console.WriteLine();
+					write.UserNameAlreadyExists();
 					break;
 				}
 			}
+			cb.Username(newUsername);
 			// Would have liked to be able to quit at any time in here.
-			Console.WriteLine("Do you want a password? y/n");
-			string newPassword = SetChoiceYesOrNo();
-			Console.WriteLine("Do you want a first name? y/n");
-			string firstName = SetChoiceYesOrNo();
-			Console.WriteLine("Do you want a last name? y/n");
-			string lastName = SetChoiceYesOrNo();
-			Console.WriteLine("Do you want an email? y/n");
-			string email = SetChoiceYesOrNo();
-			Console.WriteLine("Do you want an age? y/n");
-			int age = 0;
-			try { age = Convert.ToInt32(SetChoiceYesOrNo()); }
-			catch { Console.WriteLine("Invalid input for age! Age set to 0."); }
-			Console.WriteLine("Do you want an address? y/n");
-			string address = SetChoiceYesOrNo();
-			Console.WriteLine("Do you want a phone number? y/n");
-			string phoneNumber = SetChoiceYesOrNo();
 
-			return new CustomerBuilder().Username(newUsername).Password(newPassword).FirstName(firstName).LastName(lastName).Email(email).Age(age).Address(address).Phone(phoneNumber).Build();
+			write.NewCustomerChoice("Password");
+			cb.Password(SetChoiceYesOrNo());
+			write.NewCustomerChoice("fist name");
+			cb.FirstName(SetChoiceYesOrNo());
+			write.NewCustomerChoice("last name");
+			cb.LastName(SetChoiceYesOrNo());
+			write.NewCustomerChoice("email");
+			cb.Email(SetChoiceYesOrNo());
+			write.NewCustomerChoice("age");
+			try { cb.Age(Convert.ToInt32(SetChoiceYesOrNo()));}
+			catch { write.InvalidAge(); }
+			write.NewCustomerChoice("adress");
+			cb.Address(SetChoiceYesOrNo());
+			write.NewCustomerChoice("phone number");
+			cb.Phone(SetChoiceYesOrNo());
+			return cb.Build();
 		}
 		private string SetChoiceYesOrNo()
 		{
@@ -445,9 +421,7 @@ namespace WebShopCleanCode
 				{
 					return null;
 				}
-				Console.WriteLine();
-				Console.WriteLine("y or n, please.");
-				Console.WriteLine();
+				write.YOrNPlease();
 			}
 		}
 		private string SetText()
@@ -455,13 +429,11 @@ namespace WebShopCleanCode
 			string input;
 			while (true)
 			{
-				Console.WriteLine("Please write your input.");
+				write.WriteInput();
 				input = Console.ReadLine();
 				if (input.Equals(""))
 				{
-					Console.WriteLine();
-					Console.WriteLine("Please actually write something.");
-					Console.WriteLine();
+					write.PleaseWriteSomething();
 				}
 				else
 					break;
@@ -548,18 +520,7 @@ namespace WebShopCleanCode
 			}
 			return option;
 		}
-		private void WriteNotAnOption()
-		{
-			Console.WriteLine();
-			Console.WriteLine("Not an option.");
-			Console.WriteLine();
-		}
-		private void WriteWaresSorted()
-		{
-			Console.WriteLine();
-			Console.WriteLine("Wares sorted.");
-			Console.WriteLine();
-		}
+		
 		private void ResetCurrentChoice()
 		{
 			currentChoice = 1;
