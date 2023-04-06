@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebShopCleanCode.OptionStates;
 
 namespace WebShopCleanCode
 {
@@ -22,21 +23,21 @@ namespace WebShopCleanCode
 		{
 			Console.WriteLine("Welcome to the WebShop!");
 		}
-		public void Info(WebShop webShop) 
+		public void Info(string info) 
 		{
-			Console.WriteLine(webShop.Info);
+			Console.WriteLine(info);
 		}
-		public void Options(WebShop webShop)
+		public void Options(AbstractOptionState options)
 		{
-			Console.WriteLine("1: " + webShop.Option1);
-			Console.WriteLine("2: " + webShop.Option2);
-			if (webShop.AmountOfOptions > 2)
+			Console.WriteLine("1: " + options.Option1);
+			Console.WriteLine("2: " + options.Option2);
+			if (options.AmountOfOptions > 2)
 			{
-				Console.WriteLine("3: " + webShop.Option3);
+				Console.WriteLine("3: " + options.Option3);
 			}
-			if (webShop.AmountOfOptions > 3)
+			if (options.AmountOfOptions > 3)
 			{
-				Console.WriteLine("4: " + webShop.Option4);
+				Console.WriteLine("4: " + options.Option4);
 			}
 		}
 		public void Funds(Customer customer)
@@ -180,6 +181,35 @@ namespace WebShopCleanCode
 		public void WriteEmptyLine()
 		{
 			Console.WriteLine();
+		}
+
+		public void WriteOptionMenu(AbstractOptionState state)
+		{
+			Welcome();
+			Info(state.Info);
+			Options(state);
+			state.CurrentChoice = state.CurrentChoice;
+
+			for (int i = 0; i < state.AmountOfOptions; i++)
+			{
+				Console.Write(i + 1 + "\t");
+			}
+			Console.WriteLine();
+			for (int i = 1; i < state.CurrentChoice; i++)
+			{
+				Console.Write("\t");
+			}
+			Console.WriteLine("|");
+
+			Console.WriteLine("Your buttons are Left, Right, OK, Back and Quit.");
+			if (state.WebShop.CurrentCustomer != null)
+			{
+				Console.WriteLine("Current user: " + state.WebShop.CurrentCustomer.Username);
+			}
+			else
+			{
+				Console.WriteLine("Nobody logged in.");
+			}
 		}
 	}
 }

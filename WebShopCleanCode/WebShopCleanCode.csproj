@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="OptionStates\" />
+    <Folder Include="ChoiceCommands\" />
   </ItemGroup>
 
 </Project>

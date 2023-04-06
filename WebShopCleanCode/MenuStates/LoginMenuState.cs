@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebShopCleanCode.MenuStates
 {
-	internal class LoginMenuState : AbstractState
+	internal class LoginMenuState : AbstractMenuState
 	{
 		public LoginMenuState(WebShop webShop)
 		{
