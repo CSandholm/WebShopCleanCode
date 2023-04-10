@@ -15,7 +15,7 @@ namespace WebShopCleanCode
 {
     public class WebShop
 	{
-		Database database = new Database();
+		Database database = Database.getDbInstance();
 		List<ProductProxy> productProxies;
 		List<Customer> customers = new List<Customer>();
 		BubbleSort sort = new BubbleSort();
