@@ -20,27 +20,13 @@ namespace WebShopCleanCode
 		List<Customer> customers = new List<Customer>();
 		BubbleSort sort = new BubbleSort();
 		Customer currentCustomer = null;
-		MenuContext previousMenuContext; // Save the previous context to be able to go back?
+		OptionContext previousOptionContext;
 		OptionContext optionContext;
 		Write write = new Write();
 
 		//Dictionary with commands or delegates for choices
 
-		//Make properties? Or make into object?
-		string currentMenu;
 		public int currentChoice = 1;
-		int amountOfOptions;
-		string option1;
-		string option2;
-		string option3;
-		string option4;
-		string info;
-		public string Info { get { return info; } set { info = value; } }
-		public string Option1 { get{ return option1; } set { option1 = value; } }
-		public string Option2 { get{ return option2; } set { option2 = value; } }
-		public string Option3 { get{ return option3; } set { option3 = value; } }
-		public string Option4 { get{ return option4; } set { option4 = value; } }
-		public int AmountOfOptions { get { return amountOfOptions; } set {; } }
 		public int CurrentCostumerFunds { get { return CurrentCustomer.Funds; } set { CurrentCustomer.Funds = value; } }
 		public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
 
@@ -77,24 +63,13 @@ namespace WebShopCleanCode
 					case "ok":
 					case "k":
 					case "o":
+						SetPreviousContext();
 						optionContext.SetOptionContext();
 						break;
 					case "back":
 					case "b":
-						if (currentMenu.Equals("main menu"))
-						{
-							write.AlreadyInMainMenu();
-						}
-						else if (currentMenu.Equals("purchase menu"))
-						{
-							ResetCurrentChoice();
-							optionContext = new OptionContext(new WareMenuOptionState(this));
-						}
-						else
-						{
-							ResetCurrentChoice();
-							optionContext = new OptionContext(new MainMenuOptionState(this));
-						}
+						optionContext = previousOptionContext;
+						previousOptionContext = new OptionContext(new MainMenuOptionState(this));
 						break;
 					case "quit":
 					case "q":
@@ -139,10 +114,8 @@ namespace WebShopCleanCode
 					}
 					else
 					{
-						option3 = "Login";
-						write.LoggingOut(CurrentCustomer);
-						ResetCurrentChoice();
-						CurrentCustomer = null;
+						LogOut();
+						optionContext = new OptionContext(new MainMenuOptionState(this));
 					}
 					break;
 				default:
@@ -254,10 +227,8 @@ namespace WebShopCleanCode
 					}
 					else
 					{
-						option4 = "Login";
-						write.LoggingOut(CurrentCustomer);
-						CurrentCustomer = null;
-						ResetCurrentChoice();
+						LogOut();
+						optionContext = new OptionContext(new WareMenuOptionState(this));
 					}
 					break;
 				case 5:
@@ -433,6 +404,17 @@ namespace WebShopCleanCode
 		private void ResetCurrentChoice()
 		{
 			currentChoice = 1;
+		}
+
+		private void SetPreviousContext()
+		{
+			previousOptionContext = optionContext;
+		}
+		private void LogOut()
+		{
+			write.LoggingOut(CurrentCustomer);
+			CurrentCustomer = null;
+			ResetCurrentChoice();
 		}
 	}
 }
