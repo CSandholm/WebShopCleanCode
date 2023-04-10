@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using WebShopCleanCode.MenuStates;
 using WebShopCleanCode.OptionStates;
+using WebShopCleanCode.Sorting;
+using WebShopCleanCode.Sorting;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WebShopCleanCode
@@ -18,7 +20,6 @@ namespace WebShopCleanCode
 		Database database = Database.getDbInstance();
 		List<ProductProxy> productProxies;
 		List<Customer> customers = new List<Customer>();
-		BubbleSort sort = new BubbleSort();
 		Customer currentCustomer = null;
 		OptionContext previousOptionContext;
 		OptionContext optionContext;
@@ -162,22 +163,32 @@ namespace WebShopCleanCode
 		public void SortMenu()
 		{
 			bool back = true;
+			BubbleSort sort = new BubbleSort();
+			ShellSort shellSort = new ShellSort();
 			switch (currentChoice)
 			{
 				case 1:
-					productProxies = sort.Run("name", false, database, productProxies);
+					//Name, descending
+					//productProxies = sort.Run("name", false, database, productProxies);
+					productProxies = shellSort.Sort("name", false, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 2:
-					productProxies = sort.Run("name", true, database, productProxies);
+					//Name, ascending
+					//productProxies = sort.Run("name", true, database, productProxies);
+					productProxies = shellSort.Sort("name", true, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 3:
-					productProxies = sort.Run("price", false, database, productProxies);
+					//Price, descending
+					//productProxies = sort.Run("price", false, database, productProxies);
+					productProxies = shellSort.Sort("price", false, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 4:
-					productProxies = sort.Run("price", true, database, productProxies);
+					//Price, ascending
+					//productProxies = sort.Run("price", true, database, productProxies);
+					productProxies = shellSort.Sort("price", true, database, productProxies);
 					write.WaresSorted();
 					break;
 				default:
@@ -408,7 +419,10 @@ namespace WebShopCleanCode
 
 		private void SetPreviousContext()
 		{
-			previousOptionContext = optionContext;
+			if(previousOptionContext != optionContext)
+			{
+				previousOptionContext = optionContext;
+			}
 		}
 		private void LogOut()
 		{
