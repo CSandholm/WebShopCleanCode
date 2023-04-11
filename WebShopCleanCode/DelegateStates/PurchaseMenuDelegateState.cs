@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WebShopCleanCode.MenuStates
 {
-	internal class LoginMenuState : AbstractMenuState
+	internal class PurchaseMenuDelegateState : AbstractDelegateState
 	{
-		public LoginMenuState(WebShop webShop)
+		public PurchaseMenuDelegateState(WebShop webShop)
 		{
-			request = () => { webShop.LoginMenu(); };
+			request = () => { webShop.PurchaseMenu(); };
 		}
 	}
 }

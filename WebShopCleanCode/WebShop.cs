@@ -130,7 +130,6 @@ namespace WebShopCleanCode
 		public void SortMenu()
 		{
 			bool back = true;
-			//BubbleSort sort = new BubbleSort();
 			ShellSort shellSort = new ShellSort();
 			switch (currentChoice)
 			{
@@ -157,7 +156,6 @@ namespace WebShopCleanCode
 			}
 			if (back)
 			{
-				ResetCurrentChoice();
 				SetOptionContextToWareMenu();
 			}
 		}
@@ -176,7 +174,6 @@ namespace WebShopCleanCode
 				case 2:
 					if (CurrentCustomer != null)
 					{
-						ResetCurrentChoice();
 						SetOptionContextToPurchaseMenu();
 					}
 					else
@@ -186,13 +183,11 @@ namespace WebShopCleanCode
 					}
 					break;
 				case 3:
-					ResetCurrentChoice();
 					SetOptionContextToSortMenu();
 					break;
 				case 4:
 					if (CurrentCustomer == null)
 					{
-						ResetCurrentChoice();
 						SetOptionContextToLoginMenu();
 					}
 					else
@@ -252,7 +247,6 @@ namespace WebShopCleanCode
 					break;
 				case 4:
 					AddNewCustomer();
-					ResetCurrentChoice();
 					SetOptionContextMain();
 					break;
 				default:
@@ -292,7 +286,6 @@ namespace WebShopCleanCode
 		}
 		private Customer NewCustomer()
 		{
-			ResetCurrentChoice();
 			CustomerBuilder cb = new CustomerBuilder();
 
 			write.WriteUsername();

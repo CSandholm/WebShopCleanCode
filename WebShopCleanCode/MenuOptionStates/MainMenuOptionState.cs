@@ -18,7 +18,7 @@ namespace WebShopCleanCode.OptionStates
 			Info = "What would you like to do?";
 			CurrentChoice = 1;
 			AmountOfOptions = 3;
-			MenuContext = new MenuContext(new MainMenuState(webShop));
+			MenuContext = new MenuDelegateContext(new MainMenuDelegateState(webShop));
 			PreviousContext = MenuContext;
 			WebShop = webShop;
 		}

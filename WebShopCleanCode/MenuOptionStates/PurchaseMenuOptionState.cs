@@ -14,7 +14,7 @@ namespace WebShopCleanCode.OptionStates
 			Info = "What would you like to purchase?";
 			CurrentChoice = 1;
 			AmountOfOptions = webShop.productProxies.Count;
-			MenuContext = new MenuContext(new PurchaseMenuState(webShop));
+			MenuContext = new MenuDelegateContext(new PurchaseMenuDelegateState(webShop));
 			WebShop = webShop;
 		}
 		public override void SetOptionContext()

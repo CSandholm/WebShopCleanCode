@@ -18,7 +18,7 @@ namespace WebShopCleanCode.OptionStates
 			CurrentChoice = 1;
 			Info = "How would you like to sort them?";
 			AmountOfOptions = 4;
-			MenuContext = new MenuContext(new SortMenuState(webShop));
+			MenuContext = new MenuDelegateContext(new SortMenuDelegateState(webShop));
 			//PreviousContext = new MenuContext(new WareMenuState(webShop));
 			WebShop = webShop;
 		}

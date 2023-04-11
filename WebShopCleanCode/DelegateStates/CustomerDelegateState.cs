@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace WebShopCleanCode.MenuStates
 {
-	public class CustomerMenuState : AbstractMenuState
+	public class CustomerDelegateState : AbstractDelegateState
 	{
-		public CustomerMenuState(WebShop webShop)
+		public CustomerDelegateState(WebShop webShop)
 		{
 			request = () => { webShop.CustomerMenu(); };
 		}

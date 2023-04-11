@@ -16,8 +16,8 @@ namespace WebShopCleanCode.OptionStates
 		string option3;
 		string option4;
 		string info;
-		MenuContext menuContext;
-		MenuContext previousContext;
+		MenuDelegateContext menuContext;
+		MenuDelegateContext previousContext;
 		WebShop webShop;
 		Write write;
 
@@ -28,10 +28,10 @@ namespace WebShopCleanCode.OptionStates
 		public string Option3 { get => option3; set => option3 = value; }
 		public string Option4 { get => option4; set => option4 = value; }
 		public string Info { get => info; set => info = value; }
-		public MenuContext MenuContext { get => menuContext; set => menuContext = value; }
+		public MenuDelegateContext MenuContext { get => menuContext; set => menuContext = value; }
 		public WebShop WebShop { get => webShop; set => webShop = value; }
 		internal Write Write { get => write; set => write = value; }
-		public MenuContext PreviousContext { get => previousContext; set => previousContext = value; }
+		public MenuDelegateContext PreviousContext { get => previousContext; set => previousContext = value; }
 
 		public abstract void WriteOptionMenu();
 		public abstract void SetOptionContext();

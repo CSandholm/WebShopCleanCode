@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace WebShopCleanCode.MenuStates
 {
-    public class MenuContext
+    public class MenuDelegateContext
     {
-        AbstractMenuState state;
-        public MenuContext(AbstractMenuState state)
+        AbstractDelegateState state;
+        public MenuDelegateContext(AbstractDelegateState state)
         {
             this.state = state;
         }

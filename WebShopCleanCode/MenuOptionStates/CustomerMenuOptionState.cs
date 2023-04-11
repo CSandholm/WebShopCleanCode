@@ -18,7 +18,7 @@ namespace WebShopCleanCode.OptionStates
 			AmountOfOptions = 3;
 			CurrentChoice = 1;
 			Info = "What would you like to do?";
-			MenuContext = new MenuContext(new CustomerMenuState(webShop));
+			MenuContext = new MenuDelegateContext(new CustomerDelegateState(webShop));
 			WebShop = webShop;
 		}
 		public override void SetOptionContext()

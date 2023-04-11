@@ -18,7 +18,7 @@ namespace WebShopCleanCode.OptionStates
 			AmountOfOptions = 4;
 			Info = "Please submit username and password.";
 			CurrentChoice = 1;
-			MenuContext = new MenuContext(new LoginMenuState(webShop));
+			MenuContext = new MenuDelegateContext(new LoginDelegateState(webShop));
 			WebShop = webShop;
 		}
 		public override void SetOptionContext()
