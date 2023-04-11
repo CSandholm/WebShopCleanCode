@@ -371,19 +371,16 @@ namespace WebShopCleanCode
 		{
 			write.PowerDown();
 		}
-
 		private void LogOut()
 		{
 			write.LoggingOut(CurrentCustomer);
 			CurrentCustomer = null;
 			ResetCurrentChoice();
 		}
-
 		private void WriteMenuFromOptionContext()
 		{
 			optionContext.WriteOptionMenu();
 		}
-
 		private void SetOptionContextMain()
 		{
 			ResetCurrentChoice();

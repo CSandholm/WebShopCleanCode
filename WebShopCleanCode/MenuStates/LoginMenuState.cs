@@ -7,9 +7,9 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class LoginMenuOptionState : AbstractMenuState
+	internal class LoginMenuState : AbstractMenuState
 	{
-		public LoginMenuOptionState(WebShop webShop) 
+		public LoginMenuState(WebShop webShop) 
 		{
 			Option1 = "Set Username";
 			Option2 = "Set Password";

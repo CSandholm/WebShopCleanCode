@@ -7,9 +7,9 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class PurchaseMenuOptionState : AbstractMenuState
+	internal class PurchaseMenuState : AbstractMenuState
 	{
-		public PurchaseMenuOptionState(WebShop webShop) 
+		public PurchaseMenuState(WebShop webShop) 
 		{
 			Info = "What would you like to purchase?";
 			CurrentChoice = 1;

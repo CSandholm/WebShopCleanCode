@@ -7,9 +7,9 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class SortMenuOptionState : AbstractMenuState
+	internal class SortMenuState : AbstractMenuState
 	{
-		public SortMenuOptionState(WebShop webShop) 
+		public SortMenuState(WebShop webShop) 
 		{
 			Option1 = "Sort by name, descending";
 			Option2 = "Sort by name, ascending";

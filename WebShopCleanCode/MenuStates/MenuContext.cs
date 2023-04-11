@@ -7,11 +7,11 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	public class OptionContext
+	public class MenuContext
 	{
 		public AbstractMenuState state;
 		public int amountOfOptions;
-		public OptionContext(AbstractMenuState state)
+		public MenuContext(AbstractMenuState state)
 		{
 			this.state = state;
 			amountOfOptions = state.AmountOfOptions;

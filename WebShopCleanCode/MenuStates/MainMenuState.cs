@@ -8,9 +8,9 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class MainMenuOptionState : AbstractMenuState
+	internal class MainMenuState : AbstractMenuState
 	{
-		public MainMenuOptionState(WebShop webShop) 
+		public MainMenuState(WebShop webShop) 
 		{
 			Option1 = "See Wares";
 			Option2 = "Customer Info";
