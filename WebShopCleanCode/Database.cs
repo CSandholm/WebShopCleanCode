@@ -38,10 +38,6 @@ namespace WebShopCleanCode
             }
             return dbInstance;
         }
-        public List<Product> GetProducts()
-        {
-            return productsInDatabase;
-        }
         public List<Customer> GetCustomers()
         {
             return customersInDatabase;
