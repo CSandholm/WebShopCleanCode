@@ -40,10 +40,6 @@ namespace WebShopCleanCode
 				Console.WriteLine("4: " + options.Option4);
 			}
 		}
-		public void Funds(Customer customer)
-		{
-			Console.WriteLine("Your funds: " + customer.Funds);
-		}
 		public void NotAnOption()
 		{
 			Console.WriteLine();

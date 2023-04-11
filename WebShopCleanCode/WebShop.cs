@@ -17,7 +17,7 @@ using System.ComponentModel;
 
 namespace WebShopCleanCode
 {
-    public class WebShop
+	public class WebShop
 	{
 		Database database = Database.getDbInstance();
 		List<Customer> customers;
@@ -61,14 +61,12 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					ResetCurrentChoice();
-					optionContext = new OptionContext(new WareMenuOptionState(this));
+					SetOptionContextToWareMenu();
 					break;
 				case 2:
 					if (CurrentCustomer != null)
 					{
-						ResetCurrentChoice();
-						optionContext = new OptionContext(new CustomerMenuOptionState(this));
+						SetOptionContextToCustomerMenu();
 					}
 					else
 					{
@@ -78,15 +76,14 @@ namespace WebShopCleanCode
 				case 3:
 					if (CurrentCustomer == null)
 					{
-						ResetCurrentChoice();
-						optionContext = new OptionContext(new LoginMenuOptionState(this));
+						SetOptionContextToLoginMenu();
 						username = null;
 						password = null;
 					}
 					else
 					{
 						LogOut();
-						optionContext = new OptionContext(new MainMenuOptionState(this));
+						SetOptionContextMain();
 					}
 					break;
 				default:
@@ -161,7 +158,7 @@ namespace WebShopCleanCode
 			if (back)
 			{
 				ResetCurrentChoice();
-				optionContext = new OptionContext(new WareMenuOptionState(this));
+				SetOptionContextToWareMenu();
 			}
 		}
 		public void WaresMenu()
@@ -180,7 +177,7 @@ namespace WebShopCleanCode
 					if (CurrentCustomer != null)
 					{
 						ResetCurrentChoice();
-						optionContext = new OptionContext(new PurchaseMenuOptionState(this));
+						SetOptionContextToPurchaseMenu();
 					}
 					else
 					{
@@ -190,18 +187,18 @@ namespace WebShopCleanCode
 					break;
 				case 3:
 					ResetCurrentChoice();
-					optionContext = new OptionContext(new SortMenuOptionState(this));
+					SetOptionContextToSortMenu();
 					break;
 				case 4:
 					if (CurrentCustomer == null)
 					{
 						ResetCurrentChoice();
-						optionContext = new OptionContext(new LoginMenuOptionState(this));
+						SetOptionContextToLoginMenu();
 					}
 					else
 					{
 						LogOut();
-						optionContext = new OptionContext(new WareMenuOptionState(this));
+						SetOptionContextToWareMenu();
 					}
 					break;
 				case 5:
@@ -243,7 +240,7 @@ namespace WebShopCleanCode
 								CurrentCustomer = customer;
 								found = true;
 								ResetCurrentChoice();
-								optionContext = new OptionContext(new MainMenuOptionState(this));
+								SetOptionContextMain();
 								break;
 							}
 						}
@@ -256,7 +253,7 @@ namespace WebShopCleanCode
 				case 4:
 					AddNewCustomer();
 					ResetCurrentChoice();
-					optionContext = new OptionContext(new MainMenuOptionState(this));
+					SetOptionContextMain();
 					break;
 				default:
 					write.NotAnOption();
@@ -319,7 +316,7 @@ namespace WebShopCleanCode
 			write.NewCustomerChoice("a email");
 			cb.Email(SetChoiceYesOrNo());
 			write.NewCustomerChoice("a age");
-			try { cb.Age(Convert.ToInt32(SetChoiceYesOrNo()));}
+			try { cb.Age(Convert.ToInt32(SetChoiceYesOrNo())); }
 			catch { write.InvalidAge(); }
 			write.NewCustomerChoice("a adress");
 			cb.Address(SetChoiceYesOrNo());
@@ -377,35 +374,68 @@ namespace WebShopCleanCode
 		{
 			currentChoice = 1;
 		}
-		public void SetPreviousContext()
+		public void WritePowerDown()
 		{
-			if(previousOptionContext != optionContext)
-			{
-				previousOptionContext = optionContext;
-			}
+			write.PowerDown();
 		}
+
 		private void LogOut()
 		{
 			write.LoggingOut(CurrentCustomer);
 			CurrentCustomer = null;
 			ResetCurrentChoice();
 		}
+
+		private void WriteMenuFromOptionContext()
+		{
+			optionContext.WriteOptionMenu();
+		}
+
+		private void SetOptionContextMain()
+		{
+			ResetCurrentChoice();
+			optionContext = new OptionContext(new MainMenuOptionState(this));
+			previousOptionContext = optionContext;
+		}
+		private void SetOptionContextToWareMenu()
+		{
+			ResetCurrentChoice();
+			optionContext = new OptionContext(new WareMenuOptionState(this));
+			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+		}
+		private void SetOptionContextToPurchaseMenu()
+		{
+			ResetCurrentChoice();
+			optionContext = new OptionContext(new PurchaseMenuOptionState(this));
+			previousOptionContext = new OptionContext(new WareMenuOptionState(this));
+		}
+		private void SetOptionContextToCustomerMenu()
+		{
+			ResetCurrentChoice();
+			optionContext = new OptionContext(new CustomerMenuOptionState(this));
+			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+		}
+		private void SetOptionContextToLoginMenu()
+		{
+			ResetCurrentChoice();
+			optionContext = new OptionContext(new LoginMenuOptionState(this));
+			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+		}
+		private void SetOptionContextToSortMenu()
+		{
+			ResetCurrentChoice();
+			optionContext = new OptionContext(new SortMenuOptionState(this));
+			previousOptionContext = new OptionContext(new WareMenuOptionState(this));
+		}
 		public void SetOptionToPreviousContext()
 		{
+			ResetCurrentChoice();
 			optionContext = previousOptionContext;
 			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
 		}
 		public void SetOptionContext()
 		{
 			optionContext.SetOptionContext();
-		}
-		private void WriteMenuFromOptionContext()
-		{
-			optionContext.WriteOptionMenu();
-		}
-		public void WritePowerDown()
-		{
-			write.PowerDown();
 		}
 	}
 }
