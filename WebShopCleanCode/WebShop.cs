@@ -31,7 +31,6 @@ namespace WebShopCleanCode
 		public int currentChoice = 1;
 		string username = null;
 		string password = null;
-		public int CurrentCostumerFunds { get { return CurrentCustomer.Funds; } set { CurrentCustomer.Funds = value; } }
 		public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
 		public WebShop()
 		{
@@ -64,7 +63,7 @@ namespace WebShopCleanCode
 					SetContextToWareMenu();
 					break;
 				case 2:
-					if (CurrentCustomer != null)
+					if (IsSomeoneLoggedIn())
 					{
 						SetContextToCustomerMenu();
 					}
@@ -74,7 +73,7 @@ namespace WebShopCleanCode
 					}
 					break;
 				case 3:
-					if (CurrentCustomer == null)
+					if (!IsSomeoneLoggedIn())
 					{
 						SetContextToLoginMenu();
 						username = null;
@@ -106,16 +105,7 @@ namespace WebShopCleanCode
 					string amountString = Console.ReadLine();
 					try
 					{
-						int amount = int.Parse(amountString);
-						if (amount < 0)
-						{
-							write.ErrorNegativeAmount();
-						}
-						else
-						{
-							CurrentCustomer.Funds += amount;
-							write.AmountAdded(amount);
-						}
+						AddFunds(amountString);
 					}
 					catch
 					{
@@ -125,6 +115,19 @@ namespace WebShopCleanCode
 				default:
 					write.NotAnOption();
 					break;
+			}
+		}
+		private void AddFunds(string amountString)
+		{
+			int amount = int.Parse(amountString);
+			if (amount < 0)
+			{
+				write.ErrorNegativeAmount();
+			}
+			else
+			{
+				CurrentCustomer.Funds += amount;
+				write.AmountAdded(amount);
 			}
 		}
 		public void SortMenu()
@@ -172,7 +175,7 @@ namespace WebShopCleanCode
 					write.WriteEmptyLine();
 					break;
 				case 2:
-					if (CurrentCustomer != null)
+					if (IsSomeoneLoggedIn())
 					{
 						SetContextToPurchaseMenu();
 					}
@@ -186,7 +189,7 @@ namespace WebShopCleanCode
 					SetContextToSortMenu();
 					break;
 				case 4:
-					if (CurrentCustomer == null)
+					if (!IsSomeoneLoggedIn())
 					{
 						SetContextToLoginMenu();
 					}
@@ -253,6 +256,15 @@ namespace WebShopCleanCode
 					write.NotAnOption();
 					break;
 			}
+		}
+		private bool IsSomeoneLoggedIn()
+		{
+			if (CurrentCustomer == null)
+			{
+				return false;
+			}
+			else
+				return true;
 		}
 		private void AddNewCustomer()
 		{
@@ -353,7 +365,7 @@ namespace WebShopCleanCode
 		public string SetCurrentCustomer()
 		{
 			string option;
-			if (CurrentCustomer == null)
+			if (!IsSomeoneLoggedIn())
 			{
 				option = "Login";
 			}
