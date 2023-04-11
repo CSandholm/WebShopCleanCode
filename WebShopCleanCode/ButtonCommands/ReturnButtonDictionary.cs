@@ -12,7 +12,7 @@ namespace WebShopCleanCode.ButtonCommands
 		public Dictionary<string, MyButton> GetButtons()
 		{
 			MyButton quit = new MyButton(new Quit());
-			MyButton back = new MyButton(new Back());
+			MyButton back = new MyButton(new Return());
 			MyButton add = new MyButton(new Add());
 			MyButton accept = new MyButton(new Accept());
 			MyButton subtract = new MyButton(new Subtract());

@@ -182,7 +182,6 @@ namespace WebShopCleanCode
 					else
 					{
 						write.ErrorLoginToPurchaseWare();
-						ResetCurrentChoice();
 					}
 					break;
 				case 3:
@@ -237,7 +236,6 @@ namespace WebShopCleanCode
 								write.LoggedIn(customer);
 								CurrentCustomer = customer;
 								found = true;
-								ResetCurrentChoice();
 								SetContextToMain();
 								break;
 							}
@@ -375,10 +373,6 @@ namespace WebShopCleanCode
 			}
 			return option;
 		}
-		private void ResetCurrentChoice()
-		{
-			currentChoice = 1;
-		}
 		public void WritePowerDown()
 		{
 			write.PowerDown();
@@ -387,7 +381,6 @@ namespace WebShopCleanCode
 		{
 			write.LoggingOut(CurrentCustomer);
 			CurrentCustomer = null;
-			ResetCurrentChoice();
 		}
 		private void WriteMenuFromOptionContext()
 		{
@@ -438,6 +431,10 @@ namespace WebShopCleanCode
 		public void SetOptionContext()
 		{
 			menuContext.SetOptionContext();
+		}
+		private void ResetCurrentChoice()
+		{
+			currentChoice = 1;
 		}
 	}
 }
