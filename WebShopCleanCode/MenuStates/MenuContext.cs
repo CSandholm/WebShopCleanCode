@@ -9,9 +9,9 @@ namespace WebShopCleanCode.OptionStates
 {
 	public class OptionContext
 	{
-		public AbstractOptionState state;
+		public AbstractMenuState state;
 		public int amountOfOptions;
-		public OptionContext(AbstractOptionState state)
+		public OptionContext(AbstractMenuState state)
 		{
 			this.state = state;
 			amountOfOptions = state.AmountOfOptions;

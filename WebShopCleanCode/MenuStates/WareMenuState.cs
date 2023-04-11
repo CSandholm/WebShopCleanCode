@@ -7,19 +7,18 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class SortMenuOptionState : AbstractOptionState
+	internal class WareMenuState : AbstractMenuState
 	{
-		public SortMenuOptionState(WebShop webShop) 
+		public WareMenuState(WebShop webShop) 
 		{
-			Option1 = "Sort by name, descending";
-			Option2 = "Sort by name, ascending";
-			Option3 = "Sort by price, descending";
-			Option4 = "Sort by price, ascending";
-			CurrentChoice = 1;
-			Info = "How would you like to sort them?";
+			Option1 = "See all wares";
+			Option2 = "Purchase a ware";
+			Option3 = "Sort wares";
+			Option4 = webShop.SetCurrentCustomer();
 			AmountOfOptions = 4;
-			MenuContext = new MenuDelegateContext(new SortMenuDelegateState(webShop));
-			//PreviousContext = new MenuContext(new WareMenuState(webShop));
+			CurrentChoice = 1;
+			Info = "What would you like to do?";
+			MenuContext = new MenuDelegateContext(new WareMenuDelegateState(webShop));
 			WebShop = webShop;
 		}
 		public override void SetOptionContext()

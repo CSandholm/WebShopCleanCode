@@ -22,11 +22,11 @@ namespace WebShopCleanCode
 		Database database = Database.getDbInstance();
 		List<Customer> customers;
 		Customer currentCustomer = null;
-		OptionContext previousOptionContext;
+		MenuContext previousOptionContext;
 		Write write = new Write();
 		Dictionary<string, MyButton> buttons;
 		public List<ProductProxy> productProxies;
-		public OptionContext optionContext;
+		public MenuContext optionContext;
 		public bool running;
 		public int currentChoice = 1;
 		string username = null;
@@ -35,7 +35,7 @@ namespace WebShopCleanCode
 		public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
 		public WebShop()
 		{
-			optionContext = new OptionContext(new MainMenuOptionState(this));
+			optionContext = new MenuContext(new MainMenuState(this));
 			previousOptionContext = optionContext;
 			buttons = new ReturnButtonDictionary().GetButtons();
 			productProxies = database.GetProductProxies();
@@ -387,44 +387,44 @@ namespace WebShopCleanCode
 		private void SetOptionContextMain()
 		{
 			ResetCurrentChoice();
-			optionContext = new OptionContext(new MainMenuOptionState(this));
+			optionContext = new MenuContext(new MainMenuState(this));
 			previousOptionContext = optionContext;
 		}
 		private void SetOptionContextToWareMenu()
 		{
 			ResetCurrentChoice();
-			optionContext = new OptionContext(new WareMenuOptionState(this));
-			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+			optionContext = new MenuContext(new WareMenuState(this));
+			previousOptionContext = new MenuContext(new MainMenuState(this));
 		}
 		private void SetOptionContextToPurchaseMenu()
 		{
 			ResetCurrentChoice();
-			optionContext = new OptionContext(new PurchaseMenuOptionState(this));
-			previousOptionContext = new OptionContext(new WareMenuOptionState(this));
+			optionContext = new MenuContext(new PurchaseMenuState(this));
+			previousOptionContext = new MenuContext(new WareMenuState(this));
 		}
 		private void SetOptionContextToCustomerMenu()
 		{
 			ResetCurrentChoice();
-			optionContext = new OptionContext(new CustomerMenuOptionState(this));
-			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+			optionContext = new MenuContext(new CustomerMenuState(this));
+			previousOptionContext = new MenuContext(new MainMenuState(this));
 		}
 		private void SetOptionContextToLoginMenu()
 		{
 			ResetCurrentChoice();
-			optionContext = new OptionContext(new LoginMenuOptionState(this));
-			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+			optionContext = new MenuContext(new LoginMenuState(this));
+			previousOptionContext = new MenuContext(new MainMenuState(this));
 		}
 		private void SetOptionContextToSortMenu()
 		{
 			ResetCurrentChoice();
-			optionContext = new OptionContext(new SortMenuOptionState(this));
-			previousOptionContext = new OptionContext(new WareMenuOptionState(this));
+			optionContext = new MenuContext(new SortMenuState(this));
+			previousOptionContext = new MenuContext(new WareMenuState(this));
 		}
 		public void SetOptionToPreviousContext()
 		{
 			ResetCurrentChoice();
 			optionContext = previousOptionContext;
-			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+			previousOptionContext = new MenuContext(new MainMenuState(this));
 		}
 		public void SetOptionContext()
 		{

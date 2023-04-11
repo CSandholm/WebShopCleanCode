@@ -7,18 +7,14 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class WareMenuOptionState : AbstractOptionState
+	internal class PurchaseMenuOptionState : AbstractMenuState
 	{
-		public WareMenuOptionState(WebShop webShop) 
+		public PurchaseMenuOptionState(WebShop webShop) 
 		{
-			Option1 = "See all wares";
-			Option2 = "Purchase a ware";
-			Option3 = "Sort wares";
-			Option4 = webShop.SetCurrentCustomer();
-			AmountOfOptions = 4;
+			Info = "What would you like to purchase?";
 			CurrentChoice = 1;
-			Info = "What would you like to do?";
-			MenuContext = new MenuDelegateContext(new WareMenuDelegateState(webShop));
+			AmountOfOptions = webShop.productProxies.Count;
+			MenuContext = new MenuDelegateContext(new PurchaseMenuDelegateState(webShop));
 			WebShop = webShop;
 		}
 		public override void SetOptionContext()
@@ -30,7 +26,7 @@ namespace WebShopCleanCode.OptionStates
 		{
 			CurrentChoice = WebShop.currentChoice;
 			Write = new Write();
-			Write.WriteOptionMenu(this);
+			Write.WritePurchaseOptionMenu(this);
 		}
 	}
 }

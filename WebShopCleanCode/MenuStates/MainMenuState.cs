@@ -8,7 +8,7 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class MainMenuOptionState : AbstractOptionState
+	internal class MainMenuOptionState : AbstractMenuState
 	{
 		public MainMenuOptionState(WebShop webShop) 
 		{

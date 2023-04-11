@@ -27,7 +27,7 @@ namespace WebShopCleanCode
 		{
 			Console.WriteLine(info);
 		}
-		public void Options(AbstractOptionState options)
+		public void Options(AbstractMenuState options)
 		{
 			Console.WriteLine("1: " + options.Option1);
 			Console.WriteLine("2: " + options.Option2);
@@ -178,7 +178,7 @@ namespace WebShopCleanCode
 		{
 			Console.WriteLine();
 		}
-		public void WriteOptionMenu(AbstractOptionState state)
+		public void WriteOptionMenu(AbstractMenuState state)
 		{
 			Welcome();
 			Info(state.Info);
@@ -206,7 +206,7 @@ namespace WebShopCleanCode
 				Console.WriteLine("Nobody logged in.");
 			}
 		}
-		public void WritePurchaseOptionMenu(AbstractOptionState state)
+		public void WritePurchaseOptionMenu(AbstractMenuState state)
 		{
 			Welcome();
 			Info(state.Info);

@@ -7,14 +7,18 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class PurchaseMenuOptionState : AbstractOptionState
+	internal class LoginMenuOptionState : AbstractMenuState
 	{
-		public PurchaseMenuOptionState(WebShop webShop) 
+		public LoginMenuOptionState(WebShop webShop) 
 		{
-			Info = "What would you like to purchase?";
+			Option1 = "Set Username";
+			Option2 = "Set Password";
+			Option3 = "Login";
+			Option4 = "Register";
+			AmountOfOptions = 4;
+			Info = "Please submit username and password.";
 			CurrentChoice = 1;
-			AmountOfOptions = webShop.productProxies.Count;
-			MenuContext = new MenuDelegateContext(new PurchaseMenuDelegateState(webShop));
+			MenuContext = new MenuDelegateContext(new LoginDelegateState(webShop));
 			WebShop = webShop;
 		}
 		public override void SetOptionContext()
@@ -26,7 +30,7 @@ namespace WebShopCleanCode.OptionStates
 		{
 			CurrentChoice = WebShop.currentChoice;
 			Write = new Write();
-			Write.WritePurchaseOptionMenu(this);
+			Write.WriteOptionMenu(this);
 		}
 	}
 }
