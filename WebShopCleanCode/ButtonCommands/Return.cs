@@ -7,7 +7,7 @@ using WebShopCleanCode.Commands;
 
 namespace WebShopCleanCode.ButtonCommands
 {
-	public class Back : ICommando
+	public class Return : ICommando
 	{
 		public WebShop Execute(WebShop webShop)
 		{
