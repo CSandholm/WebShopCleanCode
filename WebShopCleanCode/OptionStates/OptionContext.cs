@@ -7,7 +7,7 @@ using WebShopCleanCode.MenuStates;
 
 namespace WebShopCleanCode.OptionStates
 {
-	internal class OptionContext
+	public class OptionContext
 	{
 		AbstractOptionState state;
 		public int amountOfOptions;

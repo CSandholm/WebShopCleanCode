@@ -11,14 +11,10 @@ namespace WebShopCleanCode.OptionStates
 	{
 		public PurchaseMenuOptionState(WebShop webShop) 
 		{
-			Option1 = "Sort by name, descending";
-			Option2 = "Sort by name, ascending";
-			Option3 = "Sort by price, descending";
-			Option4 = "Sort by price, ascending";
-			Info = "How would you like to sort them?";
+			Info = "What would you like to purchase?";
 			CurrentChoice = 1;
-			AmountOfOptions = 4;
-			MenuContext = new MenuContext(new SortMenuState(webShop));
+			AmountOfOptions = webShop.productProxies.Count;
+			MenuContext = new MenuContext(new PurchaseMenuState(webShop));
 			WebShop = webShop;
 		}
 		public override void SetOptionContext()
@@ -30,7 +26,7 @@ namespace WebShopCleanCode.OptionStates
 		{
 			CurrentChoice = WebShop.currentChoice;
 			Write = new Write();
-			Write.WriteOptionMenu(this);
+			Write.WritePurchaseOptionMenu(this);
 		}
 	}
 }

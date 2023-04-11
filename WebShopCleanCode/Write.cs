@@ -19,11 +19,11 @@ namespace WebShopCleanCode
 		{
 			Console.WriteLine("The console powers down. You are free to leave.");
 		}
-		public void Welcome() 
+		public void Welcome()
 		{
 			Console.WriteLine("Welcome to the WebShop!");
 		}
-		public void Info(string info) 
+		public void Info(string info)
 		{
 			Console.WriteLine(info);
 		}
@@ -172,7 +172,7 @@ namespace WebShopCleanCode
 		{
 			Console.WriteLine("Please write your input.");
 		}
-		public void PleaseWriteSomething() 
+		public void PleaseWriteSomething()
 		{
 			Console.WriteLine();
 			Console.WriteLine("Please actually write something.");
@@ -194,6 +194,41 @@ namespace WebShopCleanCode
 				Console.Write(i + 1 + "\t");
 			}
 			Console.WriteLine();
+			for (int i = 1; i < state.CurrentChoice; i++)
+			{
+				Console.Write("\t");
+			}
+			Console.WriteLine("|");
+
+			Console.WriteLine("Your buttons are Left, Right, OK, Back and Quit.");
+			if (state.WebShop.CurrentCustomer != null)
+			{
+				Console.WriteLine("Current user: " + state.WebShop.CurrentCustomer.Username);
+			}
+			else
+			{
+				Console.WriteLine("Nobody logged in.");
+			}
+		}
+		public void WritePurchaseOptionMenu(AbstractOptionState state)
+		{
+			Welcome();
+			Info(state.Info);
+			state.CurrentChoice = state.CurrentChoice;
+
+			foreach (ProductProxy product in state.WebShop.productProxies)
+			{
+				Console.Write(state.WebShop.productProxies.IndexOf(product) + 1 + ": ");
+				product.PrintInfo();
+			}
+			Console.WriteLine();
+
+			for (int i = 0; i < state.AmountOfOptions; i++)
+			{
+				Console.Write(i + 1 + "\t");
+			}
+			Console.WriteLine();
+
 			for (int i = 1; i < state.CurrentChoice; i++)
 			{
 				Console.Write("\t");

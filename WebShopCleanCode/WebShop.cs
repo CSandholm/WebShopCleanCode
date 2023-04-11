@@ -7,23 +7,27 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WebShopCleanCode.ButtonCommands;
 using WebShopCleanCode.MenuStates;
 using WebShopCleanCode.OptionStates;
 using WebShopCleanCode.Sorting;
-using WebShopCleanCode.Sorting;
+using WebShopCleanCode.Commands;
 using static System.Net.Mime.MediaTypeNames;
+using System.ComponentModel;
 
 namespace WebShopCleanCode
 {
     public class WebShop
 	{
 		Database database = Database.getDbInstance();
-		List<ProductProxy> productProxies;
+		public List<ProductProxy> productProxies;
 		List<Customer> customers = new List<Customer>();
 		Customer currentCustomer = null;
 		OptionContext previousOptionContext;
-		OptionContext optionContext;
+		public OptionContext optionContext;
 		Write write = new Write();
+		Dictionary<string, MyButton> buttons;
+		public bool running;
 
 		//Dictionary with commands or delegates for choices
 
@@ -38,13 +42,23 @@ namespace WebShopCleanCode
 			productProxies = database.GetProductProxies();
 			customers = database.GetCustomers();
 			optionContext = new OptionContext(new MainMenuOptionState(this));
+			running = true;
+			buttons = new ReturnButtonDictionary().GetButtons();
 		}
 		public void Run()
 		{
-			while (true)
+			while (running)
 			{
 				WriteMenuFromOptionContext();
 				string choice = Console.ReadLine().ToLower();
+				if (buttons.ContainsKey(choice))
+				{
+					buttons[choice].PressButton(this);
+				}
+				else
+					write.NotAnOption();
+
+				/*
 				switch (choice)
 				{
 					case "left":
@@ -65,7 +79,7 @@ namespace WebShopCleanCode
 					case "k":
 					case "o":
 						SetPreviousContext();
-						optionContext.SetOptionContext();
+						SetOptionContext();
 						break;
 					case "back":
 					case "b":
@@ -80,11 +94,8 @@ namespace WebShopCleanCode
 						write.NotAnOption();
 						break;
 				}
+				*/
 			}
-		}
-		private void WriteMenuFromOptionContext()
-		{
-			optionContext.WriteOptionMenu();
 		}
 		public void MainMenu()
 		{
@@ -168,26 +179,18 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					//Name, descending
-					//productProxies = sort.Run("name", false, database, productProxies);
 					productProxies = shellSort.Sort("name", false, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 2:
-					//Name, ascending
-					//productProxies = sort.Run("name", true, database, productProxies);
 					productProxies = shellSort.Sort("name", true, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 3:
-					//Price, descending
-					//productProxies = sort.Run("price", false, database, productProxies);
 					productProxies = shellSort.Sort("price", false, database, productProxies);
 					write.WaresSorted();
 					break;
 				case 4:
-					//Price, ascending
-					//productProxies = sort.Run("price", true, database, productProxies);
 					productProxies = shellSort.Sort("price", true, database, productProxies);
 					write.WaresSorted();
 					break;
@@ -417,7 +420,7 @@ namespace WebShopCleanCode
 			currentChoice = 1;
 		}
 
-		private void SetPreviousContext()
+		public void SetPreviousContext()
 		{
 			if(previousOptionContext != optionContext)
 			{
@@ -429,6 +432,23 @@ namespace WebShopCleanCode
 			write.LoggingOut(CurrentCustomer);
 			CurrentCustomer = null;
 			ResetCurrentChoice();
+		}
+		public void SetOptionToPreviousContext()
+		{
+			optionContext = previousOptionContext;
+			previousOptionContext = new OptionContext(new MainMenuOptionState(this));
+		}
+		public void SetOptionContext()
+		{
+			optionContext.SetOptionContext();
+		}
+		private void WriteMenuFromOptionContext()
+		{
+			optionContext.WriteOptionMenu();
+		}
+		public void WritePowerDown()
+		{
+			write.PowerDown();
 		}
 	}
 }

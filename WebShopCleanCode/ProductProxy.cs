@@ -27,7 +27,6 @@ namespace WebShopCleanCode
 		{
 			if(product == null)
 			{
-				Console.WriteLine("Loading: " + Name);
 				product = db.GetProductByName(Name);
 			}
 		}
