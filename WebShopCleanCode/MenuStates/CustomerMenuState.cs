@@ -12,7 +12,7 @@ namespace WebShopCleanCode.OptionStates
 		public CustomerMenuState(WebShop webShop)
 		{
 			Option1 = "See your orders";
-			Option2 = "Set your info";
+			Option2 = "See your info";
 			Option3 = "Add funds";
 			Option4 = "";
 			AmountOfOptions = 3;

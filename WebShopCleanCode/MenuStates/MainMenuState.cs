@@ -19,7 +19,6 @@ namespace WebShopCleanCode.OptionStates
 			CurrentChoice = 1;
 			AmountOfOptions = 3;
 			MenuContext = new MenuDelegateContext(new MainMenuDelegateState(webShop));
-			PreviousContext = MenuContext;
 			WebShop = webShop;
 		}
 		public override void WriteOptionMenu()

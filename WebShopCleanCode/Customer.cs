@@ -19,7 +19,6 @@ namespace WebShopCleanCode
 		public int Funds { get; set; }
 		public List<Order> Orders { get; set; }
 
-
 		public Customer(string username, string password, string firstName, string lastName, string email,
 						int age, string address, string phone, int funds, List<Order> orders)
 		{

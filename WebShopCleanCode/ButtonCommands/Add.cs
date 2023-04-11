@@ -11,9 +11,9 @@ namespace WebShopCleanCode.ButtonCommands
 	{
 		public WebShop Execute(WebShop webShop)
 		{
-			if (webShop.currentChoice >= webShop.menuContext.amountOfOptions)
+			if (webShop.currentChoice >= webShop.MenuContext.amountOfOptions)
 			{
-				webShop.currentChoice = webShop.menuContext.amountOfOptions;
+				webShop.currentChoice = webShop.MenuContext.amountOfOptions;
 			}
 			else
 				webShop.currentChoice += 1;

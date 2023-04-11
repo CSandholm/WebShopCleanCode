@@ -14,6 +14,7 @@ using WebShopCleanCode.Sorting;
 using WebShopCleanCode.Commands;
 using static System.Net.Mime.MediaTypeNames;
 using System.ComponentModel;
+using System.Reflection.Metadata.Ecma335;
 
 namespace WebShopCleanCode
 {
@@ -22,15 +23,21 @@ namespace WebShopCleanCode
 		Database database = Database.getDbInstance();
 		List<Customer> customers;
 		Customer currentCustomer = null;
-		MenuContext previousMenuContext;
 		Write write = new Write();
 		Dictionary<string, MyButton> buttons;
+		MenuContext previousMenuContext;
+		MenuContext menuContext;
+		SetMenuContext setMenuContext = new SetMenuContext();
+
 		public List<ProductProxy> productProxies;
-		public MenuContext menuContext;
 		public bool running;
 		public int currentChoice = 1;
 		string username = null;
 		string password = null;
+
+		public SetMenuContext SetMenuContext { get => setMenuContext; }
+		public MenuContext MenuContext { get => menuContext; set => menuContext = value; }
+		public MenuContext PreviousMenuContext { get => previousMenuContext; set => previousMenuContext = value; }
 		public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
 		public WebShop()
 		{
@@ -60,34 +67,42 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					SetContextToWareMenu();
+					setMenuContext.SetContextToWareMenu(this);
 					break;
 				case 2:
-					if (IsSomeoneLoggedIn())
-					{
-						SetContextToCustomerMenu();
-					}
-					else
-					{
-						write.NobodyLoggedIn();
-					}
+					TryAccessCustomerMenu();
 					break;
 				case 3:
-					if (!IsSomeoneLoggedIn())
-					{
-						SetContextToLoginMenu();
-						username = null;
-						password = null;
-					}
-					else
-					{
-						LogOut();
-						SetContextToMain();
-					}
+					LogOutOrLogIn();
 					break;
 				default:
 					write.NotAnOption();
 					break;
+			}
+		}
+		private void TryAccessCustomerMenu()
+		{
+			if (IsSomeoneLoggedIn())
+			{
+				setMenuContext.SetContextToCustomerMenu(this);
+			}
+			else
+			{
+				write.NobodyLoggedIn();
+			}
+		}
+		private void LogOutOrLogIn()
+		{
+			if (!IsSomeoneLoggedIn())
+			{
+				setMenuContext.SetContextToLoginMenu(this);
+				username = null;
+				password = null;
+			}
+			else
+			{
+				LogOut();
+				setMenuContext.SetContextToMain(this);
 			}
 		}
 		public void CustomerMenu()
@@ -101,33 +116,33 @@ namespace WebShopCleanCode
 					CurrentCustomer.PrintInfo();
 					break;
 				case 3:
-					write.FundToAdd();
-					string amountString = Console.ReadLine();
-					try
-					{
-						AddFunds(amountString);
-					}
-					catch
-					{
-						write.NotAnOption();
-					}
+					AddFunds();
 					break;
 				default:
 					write.NotAnOption();
 					break;
 			}
 		}
-		private void AddFunds(string amountString)
+		private void AddFunds()
 		{
-			int amount = int.Parse(amountString);
-			if (amount < 0)
+			write.FundToAdd();
+			string amountString = Console.ReadLine();
+			try
 			{
-				write.ErrorNegativeAmount();
+				int amount = int.Parse(amountString);
+				if (amount < 0)
+				{
+					write.ErrorNegativeAmount();
+				}
+				else
+				{
+					CurrentCustomer.Funds += amount;
+					write.AmountAdded(amount);
+				}
 			}
-			else
+			catch
 			{
-				CurrentCustomer.Funds += amount;
-				write.AmountAdded(amount);
+				write.NotAnOption();
 			}
 		}
 		public void SortMenu()
@@ -159,7 +174,7 @@ namespace WebShopCleanCode
 			}
 			if (back)
 			{
-				SetContextToWareMenu();
+				setMenuContext.SetContextToWareMenu(this);
 			}
 		}
 		public void WaresMenu()
@@ -167,36 +182,16 @@ namespace WebShopCleanCode
 			switch (currentChoice)
 			{
 				case 1:
-					write.WriteEmptyLine();
-					foreach (ProductProxy product in productProxies)
-					{
-						product.PrintInfo();
-					}
-					write.WriteEmptyLine();
+					PrintProducts();
 					break;
 				case 2:
-					if (IsSomeoneLoggedIn())
-					{
-						SetContextToPurchaseMenu();
-					}
-					else
-					{
-						write.ErrorLoginToPurchaseWare();
-					}
+					TryAccessPurchaseMenu();
 					break;
 				case 3:
-					SetContextToSortMenu();
+					setMenuContext.SetContextToSortMenu(this);
 					break;
 				case 4:
-					if (!IsSomeoneLoggedIn())
-					{
-						SetContextToLoginMenu();
-					}
-					else
-					{
-						LogOut();
-						SetContextToWareMenu();
-					}
+					LogOutOrLogIn();
 					break;
 				case 5:
 					break;
@@ -205,55 +200,87 @@ namespace WebShopCleanCode
 					break;
 			}
 		}
+		private void PrintProducts()
+		{
+			write.WriteEmptyLine();
+			foreach (ProductProxy product in productProxies)
+			{
+				product.PrintInfo();
+			}
+			write.WriteEmptyLine();
+		}
+		private void TryAccessPurchaseMenu()
+		{
+			if (IsSomeoneLoggedIn())
+			{
+				setMenuContext.SetContextToPurchaseMenu(this);
+			}
+			else
+			{
+				write.ErrorLoginToPurchaseWare();
+			}
+		}
 		public void LoginMenu()
 		{
 			switch (currentChoice)
 			{
 				case 1:
-					write.KeyboardAppears();
-					write.InputUsername();
-					username = Console.ReadLine();
-					write.WriteEmptyLine();
+					UsernameInput();
 					break;
 				case 2:
-					write.KeyboardAppears();
-					write.InputPassword();
-					password = Console.ReadLine();
-					write.WriteEmptyLine();
+					PasswordInput();
 					break;
 				case 3:
-					if (username == null || password == null)
-					{
-						write.IncompleteData();
-					}
-					else
-					{
-						bool found = false;
-						foreach (Customer customer in customers)
-						{
-							if (username.Equals(customer.Username) && customer.CheckPassword(password))
-							{
-								write.LoggedIn(customer);
-								CurrentCustomer = customer;
-								found = true;
-								SetContextToMain();
-								break;
-							}
-						}
-						if (found == false)
-						{
-							write.InvalidCredentials();
-						}
-					}
+					TryLogIn();
 					break;
 				case 4:
 					AddNewCustomer();
-					SetContextToMain();
+					setMenuContext.SetContextToMain(this);
 					break;
 				default:
 					write.NotAnOption();
 					break;
 			}
+		}
+		private void TryLogIn()
+		{
+			if (username == null || password == null)
+			{
+				write.IncompleteData();
+			}
+			else
+			{
+				bool found = false;
+				foreach (Customer customer in customers)
+				{
+					if (username.Equals(customer.Username) && customer.CheckPassword(password))
+					{
+						write.LoggedIn(customer);
+						CurrentCustomer = customer;
+						found = true;
+						setMenuContext.SetContextToMain(this);
+						break;
+					}
+				}
+				if (found == false)
+				{
+					write.InvalidCredentials();
+				}
+			}
+		}
+		private void PasswordInput()
+		{
+			write.KeyboardAppears();
+			write.InputPassword();
+			password = Console.ReadLine();
+			write.WriteEmptyLine();
+		}
+		private void UsernameInput()
+		{
+			write.KeyboardAppears();
+			write.InputUsername();
+			username = Console.ReadLine();
+			write.WriteEmptyLine();
 		}
 		private bool IsSomeoneLoggedIn()
 		{
@@ -382,59 +409,17 @@ namespace WebShopCleanCode
 			write.LoggingOut(CurrentCustomer);
 			CurrentCustomer = null;
 		}
-		private void WriteMenuFromOptionContext()
+		public void ResetCurrentChoice()
 		{
-			menuContext.WriteOptionMenu();
-		}
-		private void SetContextToMain()
-		{
-			ResetCurrentChoice();
-			menuContext = new MenuContext(new MainMenuState(this));
-			previousMenuContext = menuContext;
-		}
-		private void SetContextToWareMenu()
-		{
-			ResetCurrentChoice();
-			menuContext = new MenuContext(new WareMenuState(this));
-			previousMenuContext = new MenuContext(new MainMenuState(this));
-		}
-		private void SetContextToPurchaseMenu()
-		{
-			ResetCurrentChoice();
-			menuContext = new MenuContext(new PurchaseMenuState(this));
-			previousMenuContext = new MenuContext(new WareMenuState(this));
-		}
-		private void SetContextToCustomerMenu()
-		{
-			ResetCurrentChoice();
-			menuContext = new MenuContext(new CustomerMenuState(this));
-			previousMenuContext = new MenuContext(new MainMenuState(this));
-		}
-		private void SetContextToLoginMenu()
-		{
-			ResetCurrentChoice();
-			menuContext = new MenuContext(new LoginMenuState(this));
-			previousMenuContext = new MenuContext(new MainMenuState(this));
-		}
-		private void SetContextToSortMenu()
-		{
-			ResetCurrentChoice();
-			menuContext = new MenuContext(new SortMenuState(this));
-			previousMenuContext = new MenuContext(new WareMenuState(this));
-		}
-		public void SetToPreviousContext()
-		{
-			ResetCurrentChoice();
-			menuContext = previousMenuContext;
-			previousMenuContext = new MenuContext(new MainMenuState(this));
+			currentChoice = 1;
 		}
 		public void SetOptionContext()
 		{
 			menuContext.SetOptionContext();
 		}
-		private void ResetCurrentChoice()
+		private void WriteMenuFromOptionContext()
 		{
-			currentChoice = 1;
+			menuContext.WriteOptionMenu();
 		}
 	}
 }
