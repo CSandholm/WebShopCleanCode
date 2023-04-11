@@ -8,10 +8,7 @@ namespace WebShopCleanCode
 {
     public class Database
     {
-		// We just pretend this accesses a real database.
-
-        //Using a singleton database to make sure no other instance of database is created.
-
+        //Using a singleton database to make sure no other instances of the database class is created.
 		private static Database dbInstance;
 
 		private List<Product> productsInDatabase;
@@ -41,12 +38,10 @@ namespace WebShopCleanCode
             }
             return dbInstance;
         }
-
         public List<Product> GetProducts()
         {
             return productsInDatabase;
         }
-
         public List<Customer> GetCustomers()
         {
             return customersInDatabase;

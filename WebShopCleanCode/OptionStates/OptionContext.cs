@@ -9,7 +9,7 @@ namespace WebShopCleanCode.OptionStates
 {
 	public class OptionContext
 	{
-		AbstractOptionState state;
+		public AbstractOptionState state;
 		public int amountOfOptions;
 		public OptionContext(AbstractOptionState state)
 		{

@@ -20,30 +20,27 @@ namespace WebShopCleanCode
     public class WebShop
 	{
 		Database database = Database.getDbInstance();
-		public List<ProductProxy> productProxies;
-		List<Customer> customers = new List<Customer>();
+		List<Customer> customers;
 		Customer currentCustomer = null;
 		OptionContext previousOptionContext;
-		public OptionContext optionContext;
 		Write write = new Write();
 		Dictionary<string, MyButton> buttons;
+		public List<ProductProxy> productProxies;
+		public OptionContext optionContext;
 		public bool running;
-
-		//Dictionary with commands or delegates for choices
-
 		public int currentChoice = 1;
-		public int CurrentCostumerFunds { get { return CurrentCustomer.Funds; } set { CurrentCustomer.Funds = value; } }
-		public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
-
 		string username = null;
 		string password = null;
+		public int CurrentCostumerFunds { get { return CurrentCustomer.Funds; } set { CurrentCustomer.Funds = value; } }
+		public Customer CurrentCustomer { get => currentCustomer; set => currentCustomer = value; }
 		public WebShop()
 		{
+			optionContext = new OptionContext(new MainMenuOptionState(this));
+			previousOptionContext = optionContext;
+			buttons = new ReturnButtonDictionary().GetButtons();
 			productProxies = database.GetProductProxies();
 			customers = database.GetCustomers();
-			optionContext = new OptionContext(new MainMenuOptionState(this));
 			running = true;
-			buttons = new ReturnButtonDictionary().GetButtons();
 		}
 		public void Run()
 		{
@@ -57,44 +54,6 @@ namespace WebShopCleanCode
 				}
 				else
 					write.NotAnOption();
-
-				/*
-				switch (choice)
-				{
-					case "left":
-					case "l":
-						if (currentChoice > 1)
-						{
-							currentChoice--;
-						}
-						break;
-					case "right":
-					case "r":
-						if (currentChoice < optionContext.amountOfOptions)
-						{
-							currentChoice++;
-						}
-						break;
-					case "ok":
-					case "k":
-					case "o":
-						SetPreviousContext();
-						SetOptionContext();
-						break;
-					case "back":
-					case "b":
-						optionContext = previousOptionContext;
-						previousOptionContext = new OptionContext(new MainMenuOptionState(this));
-						break;
-					case "quit":
-					case "q":
-						write.PowerDown();
-						return;
-					default:
-						write.NotAnOption();
-						break;
-				}
-				*/
 			}
 		}
 		public void MainMenu()
@@ -174,7 +133,7 @@ namespace WebShopCleanCode
 		public void SortMenu()
 		{
 			bool back = true;
-			BubbleSort sort = new BubbleSort();
+			//BubbleSort sort = new BubbleSort();
 			ShellSort shellSort = new ShellSort();
 			switch (currentChoice)
 			{
@@ -349,22 +308,22 @@ namespace WebShopCleanCode
 					break;
 				}
 			}
-			cb.Username(newUsername);
 
-			write.NewCustomerChoice("Password");
+			cb.Username(newUsername);
+			write.NewCustomerChoice("a Password");
 			cb.Password(SetChoiceYesOrNo());
-			write.NewCustomerChoice("fist name");
+			write.NewCustomerChoice("a fist name");
 			cb.FirstName(SetChoiceYesOrNo());
-			write.NewCustomerChoice("last name");
+			write.NewCustomerChoice("a last name");
 			cb.LastName(SetChoiceYesOrNo());
-			write.NewCustomerChoice("email");
+			write.NewCustomerChoice("a email");
 			cb.Email(SetChoiceYesOrNo());
-			write.NewCustomerChoice("age");
+			write.NewCustomerChoice("a age");
 			try { cb.Age(Convert.ToInt32(SetChoiceYesOrNo()));}
 			catch { write.InvalidAge(); }
-			write.NewCustomerChoice("adress");
+			write.NewCustomerChoice("a adress");
 			cb.Address(SetChoiceYesOrNo());
-			write.NewCustomerChoice("phone number");
+			write.NewCustomerChoice("a phone number");
 			cb.Phone(SetChoiceYesOrNo());
 			return cb.Build();
 		}
@@ -414,12 +373,10 @@ namespace WebShopCleanCode
 			}
 			return option;
 		}
-		
 		private void ResetCurrentChoice()
 		{
 			currentChoice = 1;
 		}
-
 		public void SetPreviousContext()
 		{
 			if(previousOptionContext != optionContext)
