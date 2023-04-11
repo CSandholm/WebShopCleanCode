@@ -11,7 +11,7 @@ namespace WebShopCleanCode.ButtonCommands
 	{
 		public WebShop Execute(WebShop webShop)
 		{
-			webShop.SetOptionToPreviousContext();
+			webShop.SetToPreviousContext();
 			return webShop;
 		}
 	}
