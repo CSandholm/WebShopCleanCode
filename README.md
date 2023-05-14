@@ -1,3 +1,5 @@
+Workshop project working with existing code, cleaning it and implementing designpatters.
+
 # WebShopCleanCode
 
 Builder design pattern används för att skapa customers.
